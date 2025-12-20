@@ -196,21 +196,35 @@ class RulatePlugin implements Plugin.PluginBase {
   }
 
   async parseChapter(chapterPath: string): Promise<string> {
-    let result = await fetchApi(this.site + chapterPath);
+    // 1. Добавляем заголовки, чтобы сайт не думал, что мы бот (и не выдавал System Error)
+    const headers = {
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36',
+      'Referer': this.site + chapterPath
+    };
+
+    let result = await fetchApi(this.site + chapterPath, { headers });
+
+    // 2. Исправляем логику обхода 18+ (Age Gate)
     if (result.url.includes('mature?path=')) {
       const formData = new FormData();
-      formData.append('path', chapterPath.split('/').slice(0, 3).join('/'));
+      // ОШИБКА БЫЛА ТУТ: .slice(0, 3) обрезал путь до книги, выкидывая нас из главы.
+      // Теперь мы передаем полный путь chapterPath, чтобы вернуться именно в главу.
+      formData.append('path', chapterPath);
       formData.append('ok', 'Да');
 
       result = await fetchApi(result.url, {
         method: 'POST',
         body: formData,
+        headers // Не забываем заголовки и тут
       });
     }
+
     const body = await result.text();
     const loadedCheerio = parseHTML(body);
 
-    const chapterText = loadedCheerio('.content-text, #read-text').html();
+    // 3. Расширенный список селекторов (на случай если тема поменялась)
+    const chapterText = loadedCheerio('.content-text, #read-text, .entry-content, .b-chapter-text').html();
+    
     return chapterText || '';
   }
 
