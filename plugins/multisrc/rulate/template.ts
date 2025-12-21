@@ -38,7 +38,7 @@ class RulatePlugin implements Plugin.PluginBase {
     };
   }
 
-  // Вспомогательный геттер для безопасного базового URL (на всякий случай)
+  // Вспомогательный геттер для безопасного базового URL (на всякий случай!)
   get baseUrl() {
     return (this.site || 'https://erolate.com').replace(/\/+$/, '');
   }
