@@ -30,6 +30,15 @@ class RulatePlugin implements Plugin.PluginBase {
     this.filters = metadata.filters;
   }
 
+  // Вспомогательный метод для заголовков
+  get headers() {
+    return {
+      'User-Agent':
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36',
+      Referer: this.site,
+    };
+  }
+
   async popularNovels(
     pageNo: number,
     { filters, showLatestNovels }: Plugin.PopularNovelsOptions,
@@ -56,26 +65,32 @@ class RulatePlugin implements Plugin.PluginBase {
 
     url += '&Book_page=' + pageNo;
 
-    const body = await fetchApi(url).then(res => res.text());
+    // ИСПРАВЛЕНО: Добавлены заголовки
+    const body = await fetchApi(url, { headers: this.headers }).then(res => res.text());
     const loadedCheerio = parseHTML(body);
 
     loadedCheerio(
       'ul[class="search-results"] > li:not([class="ad_type_catalog"])',
     ).each((index, element) => {
-      loadedCheerio(element).find('p > a').text();
-      const name = loadedCheerio(element).find('p > a').text();
-      const cover = loadedCheerio(element).find('img').attr('src');
+      const name = loadedCheerio(element).find('p > a').text().trim();
       const path = loadedCheerio(element).find('p > a').attr('href');
+      
+      // ИСПРАВЛЕНО: Безопасное получение обложки
+      const coverAttr = loadedCheerio(element).find('img').attr('src');
+      const cover = coverAttr ? this.site + coverAttr : '';
+
       if (!name || !path) return;
 
-      novels.push({ name, cover: this.site + cover, path });
+      novels.push({ name, cover, path });
     });
 
     return novels;
   }
 
   async parseNovel(novelPath: string): Promise<Plugin.SourceNovel> {
-    let result = await fetchApi(this.site + novelPath);
+    // ИСПРАВЛЕНО: Добавлены заголовки
+    let result = await fetchApi(this.site + novelPath, { headers: this.headers });
+
     if (result.url.includes('mature?path=')) {
       const formData = new FormData();
       formData.append('path', novelPath);
@@ -84,6 +99,7 @@ class RulatePlugin implements Plugin.PluginBase {
       result = await fetchApi(result.url, {
         method: 'POST',
         body: formData,
+        headers: this.headers, // И тут заголовки
       });
     }
     const body = await result.text();
@@ -96,12 +112,11 @@ class RulatePlugin implements Plugin.PluginBase {
     if (novel.name?.includes?.('[')) {
       novel.name = novel.name.split('[')[0].trim();
     }
+
+    // ИСПРАВЛЕНО: Безопасное получение обложки (уже было у тебя, но оставляем правильным)
     const coverAttr = loadedCheerio('div[class="images"] > div img, .book__cover > img').attr('src');
-    if (coverAttr) {
-        novel.cover = this.site + coverAttr;
-    } else {
-        novel.cover = ''; // Или ссылка на заглушку
-    }
+    novel.cover = coverAttr ? this.site + coverAttr : '';
+
     novel.summary = loadedCheerio(
       '#Info > div:nth-child(4) > p:nth-child(1), .book__description',
     )
@@ -197,53 +212,55 @@ class RulatePlugin implements Plugin.PluginBase {
   }
 
   async parseChapter(chapterPath: string): Promise<string> {
-    // 1. Добавляем заголовки, чтобы сайт не думал, что мы бот
     const headers = {
-      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36',
-      'Referer': this.site + chapterPath
+      ...this.headers,
+      Referer: this.site + chapterPath,
     };
 
     let result = await fetchApi(this.site + chapterPath, { headers });
 
-    // 2. Исправляем логику обхода 18+ (Age Gate)
     if (result.url.includes('mature?path=')) {
       const formData = new FormData();
-      // ОШИБКА БЫЛА ТУТ: .slice(0, 3) обрезал путь до книги, выкидывая нас из главы.
-      // Теперь мы передаем полный путь chapterPath, чтобы вернуться именно в главу.
       formData.append('path', chapterPath);
       formData.append('ok', 'Да');
 
       result = await fetchApi(result.url, {
         method: 'POST',
         body: formData,
-        headers // Не забываем заголовки и тут
+        headers,
       });
     }
 
     const body = await result.text();
     const loadedCheerio = parseHTML(body);
 
-    // 3. Расширенный список селекторов (на случай если тема поменялась)
-    const chapterText = loadedCheerio('.content-text, #read-text, .entry-content, .b-chapter-text').html();
-    
+    const chapterText = loadedCheerio(
+      '.content-text, #read-text, .entry-content, .b-chapter-text',
+    ).html();
+
     return chapterText || '';
   }
 
   async searchNovels(searchTerm: string): Promise<Plugin.NovelItem[]> {
     const novels: Plugin.NovelItem[] = [];
-    const result: response[] = await fetchApi(
-      this.site +
-        '/search/autocomplete?query=' +
-        encodeURIComponent(searchTerm),
-    ).then(res => res.json());
+    const url =
+      this.site + '/search/autocomplete?query=' + encodeURIComponent(searchTerm);
+
+    // ИСПРАВЛЕНО: Добавлены заголовки
+    const result: response[] = await fetchApi(url, { headers: this.headers }).then(res =>
+      res.json(),
+    );
 
     result.forEach(novel => {
       const name = novel.title_one + ' / ' + novel.title_two;
       if (!novel.url) return;
 
+      // ИСПРАВЛЕНО: Безопасное получение обложки
+      const cover = novel.img ? this.site + novel.img : '';
+
       novels.push({
         name,
-        cover: this.site + novel.img,
+        cover,
         path: novel.url,
       });
     });
