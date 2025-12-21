@@ -22,13 +22,17 @@ class RulatePlugin implements Plugin.PluginBase {
   filters?: Filters | undefined;
 
   constructor(metadata: RulateMetadata) {
-    this.id = metadata.id;
-    this.name = metadata.sourceName;
-    this.icon = `multisrc/rulate/${metadata.id.toLowerCase()}/icon.png`;
-    this.site = metadata.sourceSite;
-    this.version = '1.0.' + (2 + metadata.versionIncrements);
-    this.filters = metadata.filters;
-  }
+  this.id = metadata.id;
+  this.name = metadata.sourceName;
+  this.icon = `multisrc/rulate/${metadata.id.toLowerCase()}/icon.png`;
+
+  // ⚠️ ВАЖНО: защита от undefined и лишнего слеша в конце
+  this.site = (metadata.sourceSite || 'https://erolate.com').replace(/\/+$/, '');
+
+  this.version = '1.0.' + (2 + metadata.versionIncrements);
+  this.filters = metadata.filters;
+}
+
 
   // Вспомогательный метод для заголовков
   get headers() {
@@ -44,7 +48,8 @@ class RulatePlugin implements Plugin.PluginBase {
     { filters, showLatestNovels }: Plugin.PopularNovelsOptions,
   ): Promise<Plugin.NovelItem[]> {
     const novels: Plugin.NovelItem[] = [];
-    let url = this.site + '/search?t=';
+    const baseUrl = (this.site || 'https://erolate.com').replace(/\/+$/, '');
+    let url = baseUrl + '/search?t=';
     url += '&cat=' + (filters?.cat?.value || '0');
     url += '&s_lang=' + (filters?.s_lang?.value || '0');
     url += '&t_lang=' + (filters?.t_lang?.value || '0');
@@ -89,7 +94,9 @@ class RulatePlugin implements Plugin.PluginBase {
 
   async parseNovel(novelPath: string): Promise<Plugin.SourceNovel> {
     // ИСПРАВЛЕНО: Добавлены заголовки
-    let result = await fetchApi(this.site + novelPath, { headers: this.headers });
+    const baseUrl = (this.site || 'https://erolate.com').replace(/\/+$/, '');
+    let result = await fetchApi(baseUrl + novelPath);
+
 
     if (result.url.includes('mature?path=')) {
       const formData = new FormData();
@@ -115,7 +122,11 @@ class RulatePlugin implements Plugin.PluginBase {
 
     // ИСПРАВЛЕНО: Безопасное получение обложки (уже было у тебя, но оставляем правильным)
     const coverAttr = loadedCheerio('div[class="images"] > div img, .book__cover > img').attr('src');
-    novel.cover = coverAttr ? this.site + coverAttr : '';
+    if (coverAttr) {
+      novel.cover = baseUrl + coverAttr;
+    } else {
+      novel.cover = '';
+    }
 
     novel.summary = loadedCheerio(
       '#Info > div:nth-child(4) > p:nth-child(1), .book__description',
@@ -212,10 +223,15 @@ class RulatePlugin implements Plugin.PluginBase {
   }
 
   async parseChapter(chapterPath: string): Promise<string> {
+    const baseUrl = (this.site || 'https://erolate.com').replace(/\/+$/, '');
+
     const headers = {
-      ...this.headers,
-      Referer: this.site + chapterPath,
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36',
+      'Referer': baseUrl + chapterPath
     };
+    
+    let result = await fetchApi(baseUrl + chapterPath, { headers });
+
 
     let result = await fetchApi(this.site + chapterPath, { headers });
 
