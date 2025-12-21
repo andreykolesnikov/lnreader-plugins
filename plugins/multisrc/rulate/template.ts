@@ -22,19 +22,16 @@ class RulatePlugin implements Plugin.PluginBase {
   filters?: Filters | undefined;
 
   constructor(metadata: RulateMetadata) {
-  this.id = metadata.id;
-  this.name = metadata.sourceName;
-  this.icon = `multisrc/rulate/${metadata.id.toLowerCase()}/icon.png`;
+    this.id = metadata.id;
+    this.name = metadata.sourceName;
+    this.icon = `multisrc/rulate/${metadata.id.toLowerCase()}/icon.png`;
+    // Гарантируем, что site не undefined и без слеша на конце
+    this.site = (metadata.sourceSite || 'https://erolate.com').replace(/\/+$/, '');
+    this.version = '1.0.' + (2 + metadata.versionIncrements);
+    this.filters = metadata.filters;
+  }
 
-  // ⚠️ ВАЖНО: защита от undefined и лишнего слеша в конце
-  this.site = (metadata.sourceSite || 'https://erolate.com').replace(/\/+$/, '');
-
-  this.version = '1.0.' + (2 + metadata.versionIncrements);
-  this.filters = metadata.filters;
-}
-
-
-  // Вспомогательный метод для заголовков
+  // Вспомогательный геттер для заголовков
   get headers() {
     return {
       'User-Agent':
@@ -43,13 +40,18 @@ class RulatePlugin implements Plugin.PluginBase {
     };
   }
 
+  // Вспомогательный геттер для безопасного базового URL (на всякий случай)
+  get baseUrl() {
+    return (this.site || 'https://erolate.com').replace(/\/+$/, '');
+  }
+
   async popularNovels(
     pageNo: number,
     { filters, showLatestNovels }: Plugin.PopularNovelsOptions,
   ): Promise<Plugin.NovelItem[]> {
     const novels: Plugin.NovelItem[] = [];
-    const baseUrl = (this.site || 'https://erolate.com').replace(/\/+$/, '');
-    let url = baseUrl + '/search?t=';
+    let url = this.baseUrl + '/search?t=';
+    
     url += '&cat=' + (filters?.cat?.value || '0');
     url += '&s_lang=' + (filters?.s_lang?.value || '0');
     url += '&t_lang=' + (filters?.t_lang?.value || '0');
@@ -70,7 +72,6 @@ class RulatePlugin implements Plugin.PluginBase {
 
     url += '&Book_page=' + pageNo;
 
-    // ИСПРАВЛЕНО: Добавлены заголовки
     const body = await fetchApi(url, { headers: this.headers }).then(res => res.text());
     const loadedCheerio = parseHTML(body);
 
@@ -80,9 +81,8 @@ class RulatePlugin implements Plugin.PluginBase {
       const name = loadedCheerio(element).find('p > a').text().trim();
       const path = loadedCheerio(element).find('p > a').attr('href');
       
-      // ИСПРАВЛЕНО: Безопасное получение обложки
       const coverAttr = loadedCheerio(element).find('img').attr('src');
-      const cover = coverAttr ? this.site + coverAttr : '';
+      const cover = coverAttr ? this.baseUrl + coverAttr : '';
 
       if (!name || !path) return;
 
@@ -93,10 +93,7 @@ class RulatePlugin implements Plugin.PluginBase {
   }
 
   async parseNovel(novelPath: string): Promise<Plugin.SourceNovel> {
-    // ИСПРАВЛЕНО: Добавлены заголовки
-    const baseUrl = (this.site || 'https://erolate.com').replace(/\/+$/, '');
-    let result = await fetchApi(baseUrl + novelPath);
-
+    let result = await fetchApi(this.baseUrl + novelPath, { headers: this.headers });
 
     if (result.url.includes('mature?path=')) {
       const formData = new FormData();
@@ -106,7 +103,7 @@ class RulatePlugin implements Plugin.PluginBase {
       result = await fetchApi(result.url, {
         method: 'POST',
         body: formData,
-        headers: this.headers, // И тут заголовки
+        headers: this.headers,
       });
     }
     const body = await result.text();
@@ -119,15 +116,14 @@ class RulatePlugin implements Plugin.PluginBase {
     if (novel.name?.includes?.('[')) {
       novel.name = novel.name.split('[')[0].trim();
     }
-
-    // ИСПРАВЛЕНО: Безопасное получение обложки (уже было у тебя, но оставляем правильным)
+    
     const coverAttr = loadedCheerio('div[class="images"] > div img, .book__cover > img').attr('src');
     if (coverAttr) {
-      novel.cover = baseUrl + coverAttr;
+        novel.cover = this.baseUrl + coverAttr;
     } else {
-      novel.cover = '';
+        novel.cover = ''; 
     }
-
+    
     novel.summary = loadedCheerio(
       '#Info > div:nth-child(4) > p:nth-child(1), .book__description',
     )
@@ -223,17 +219,13 @@ class RulatePlugin implements Plugin.PluginBase {
   }
 
   async parseChapter(chapterPath: string): Promise<string> {
-    const baseUrl = (this.site || 'https://erolate.com').replace(/\/+$/, '');
-
     const headers = {
       'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36',
-      'Referer': baseUrl + chapterPath
+      'Referer': this.baseUrl + chapterPath
     };
-    
-    let result = await fetchApi(baseUrl + chapterPath, { headers });
 
-
-    let result = await fetchApi(this.site + chapterPath, { headers });
+    // Исправлено: один запрос, использующий безопасный baseUrl
+    let result = await fetchApi(this.baseUrl + chapterPath, { headers });
 
     if (result.url.includes('mature?path=')) {
       const formData = new FormData();
@@ -243,7 +235,7 @@ class RulatePlugin implements Plugin.PluginBase {
       result = await fetchApi(result.url, {
         method: 'POST',
         body: formData,
-        headers,
+        headers, // Используем те же headers
       });
     }
 
@@ -253,26 +245,22 @@ class RulatePlugin implements Plugin.PluginBase {
     const chapterText = loadedCheerio(
       '.content-text, #read-text, .entry-content, .b-chapter-text',
     ).html();
-
+    
     return chapterText || '';
   }
 
   async searchNovels(searchTerm: string): Promise<Plugin.NovelItem[]> {
     const novels: Plugin.NovelItem[] = [];
     const url =
-      this.site + '/search/autocomplete?query=' + encodeURIComponent(searchTerm);
+      this.baseUrl + '/search/autocomplete?query=' + encodeURIComponent(searchTerm);
 
-    // ИСПРАВЛЕНО: Добавлены заголовки
-    const result: response[] = await fetchApi(url, { headers: this.headers }).then(res =>
-      res.json(),
-    );
+    const result: response[] = await fetchApi(url, { headers: this.headers }).then(res => res.json());
 
     result.forEach(novel => {
       const name = novel.title_one + ' / ' + novel.title_two;
       if (!novel.url) return;
-
-      // ИСПРАВЛЕНО: Безопасное получение обложки
-      const cover = novel.img ? this.site + novel.img : '';
+      
+      const cover = novel.img ? this.baseUrl + novel.img : '';
 
       novels.push({
         name,
