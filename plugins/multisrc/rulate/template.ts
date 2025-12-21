@@ -96,11 +96,12 @@ class RulatePlugin implements Plugin.PluginBase {
     if (novel.name?.includes?.('[')) {
       novel.name = novel.name.split('[')[0].trim();
     }
-    novel.cover =
-      this.site +
-      loadedCheerio('div[class="images"] > div img, .book__cover > img').attr(
-        'src',
-      );
+    const coverAttr = loadedCheerio('div[class="images"] > div img, .book__cover > img').attr('src');
+    if (coverAttr) {
+        novel.cover = this.site + coverAttr;
+    } else {
+        novel.cover = ''; // Или ссылка на заглушку
+    }
     novel.summary = loadedCheerio(
       '#Info > div:nth-child(4) > p:nth-child(1), .book__description',
     )
