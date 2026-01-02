@@ -48,7 +48,7 @@ class ReadNovelFullPlugin implements Plugin.PluginBase {
     this.icon = `multisrc/readnovelfull/${metadata.id.toLowerCase()}/icon.png`;
     this.site = metadata.sourceSite;
     const versionIncrements = metadata.options?.versionIncrements || 0;
-    this.version = `2.1.${2 + versionIncrements}`;
+    this.version = `2.1.${5 + versionIncrements}`;
     this.options = metadata.options;
     this.filters = metadata.filters;
   }
@@ -63,7 +63,7 @@ class ReadNovelFullPlugin implements Plugin.PluginBase {
   parseNovels(html: string) {
     const novels: Plugin.NovelItem[] = [];
     let tempNovel: Partial<Plugin.NovelItem> = {};
-    let depth: number;
+    let depth: number = 0;
 
     const stateStack: ParsingState[] = [ParsingState.Idle];
     const currentState = () => stateStack[stateStack.length - 1];
@@ -74,59 +74,62 @@ class ReadNovelFullPlugin implements Plugin.PluginBase {
     const parser = new Parser({
       onopentag: (name, attribs) => {
         const state = currentState();
-        if (
-          attribs.class?.includes('archive') ||
-          attribs.class === 'col-content'
-        ) {
-          pushState(ParsingState.NovelList);
-          depth = 0;
+        const cls = attribs.class || '';
+
+        if (state === ParsingState.Idle) {
+          if (
+            cls.includes('archive') ||
+            cls.includes('col-content') ||
+            cls.includes('list-novel') ||
+            attribs.id === 'list-page'
+          ) {
+            pushState(ParsingState.NovelList);
+            depth = 0;
+          }
+          return;
         }
 
-        if (
-          state !== ParsingState.NovelList &&
-          state !== ParsingState.NovelName
-        )
-          return;
-
-        switch (name) {
-          case 'img':
+        if (state === ParsingState.NovelList) {
+          if (name === 'div') depth++;
+          if (name === 'h3') {
+            pushState(ParsingState.NovelName);
+          }
+          if (name === 'img') {
             const cover = attribs['data-src'] || attribs.src;
             if (cover) {
               tempNovel.cover = new URL(cover, this.site).href;
             }
-            break;
-          case 'h3':
-            if (state === ParsingState.NovelList) {
-              pushState(ParsingState.NovelName);
+          }
+        } else if (state === ParsingState.NovelName) {
+          if (name === 'a') {
+            const href = attribs.href;
+            if (href) {
+              tempNovel.path = new URL(href, this.site).pathname.substring(1);
+              tempNovel.name = attribs.title;
             }
-            break;
-          case 'a':
-            if (state === ParsingState.NovelName) {
-              const href = attribs.href;
-              if (href) {
-                tempNovel.path = new URL(href, this.site).pathname.substring(1);
-                tempNovel.name = attribs.title;
-              }
-            }
-            break;
-          case 'div':
-            depth++;
-            break;
-          default:
-            return;
+          }
+        }
+      },
+
+      ontext: data => {
+        const state = currentState();
+        if (state === ParsingState.NovelName && !tempNovel.name) {
+          tempNovel.name = data.trim();
         }
       },
 
       onclosetag: name => {
         const state = currentState();
-        if (name === 'a' && state === ParsingState.NovelName) {
+        if (
+          state === ParsingState.NovelName &&
+          (name === 'h3' || name === 'a')
+        ) {
           if (tempNovel.name && tempNovel.path) {
             novels.push({ ...tempNovel } as Plugin.NovelItem);
+            tempNovel = {};
           }
-          tempNovel = {};
           popState();
-        }
-        if (name === 'div' && state === ParsingState.NovelList) {
+        } else if (state === ParsingState.NovelList && name === 'div') {
           depth--;
           if (depth < 0) popState();
         }
@@ -156,13 +159,17 @@ class ReadNovelFullPlugin implements Plugin.PluginBase {
       pageAsPath = false,
     } = this.options;
 
+    const filterType = (filters?.type?.value as string) || '';
+    const filterGenre = (filters?.genres?.value as string) || '';
+
     // Skip Pagination for FWN & LR
     if (
       pageNo !== 1 &&
       !showLatestNovels &&
-      !filters.genres.value.length &&
+      !filterGenre.length &&
+      noPages &&
       noPages.length > 0 &&
-      noPages.includes(filters.type.value)
+      noPages.includes(filterType)
     ) {
       return [];
     }
@@ -175,11 +182,11 @@ class ReadNovelFullPlugin implements Plugin.PluginBase {
 
       if (showLatestNovels) {
         params.append(typeParam, latestPage);
-      } else if (filters.genres.value.length) {
+      } else if (filterGenre.length) {
         params.append(typeParam, genreParam);
-        params.append(genreKey, filters.genres.value);
+        params.append(genreKey, filterGenre);
       } else {
-        params.append(typeParam, filters.type.value);
+        params.append(typeParam, filterType);
       }
 
       // Add language parameter if specified
@@ -193,9 +200,9 @@ class ReadNovelFullPlugin implements Plugin.PluginBase {
       // URL structure with path segments
       const basePage = showLatestNovels
         ? latestPage
-        : filters.genres.value.length
-          ? filters.genres.value
-          : filters.type.value;
+        : filterGenre.length
+          ? filterGenre
+          : filterType;
 
       if (pageAsPath) {
         if (pageNo > 1) {
@@ -236,7 +243,7 @@ class ReadNovelFullPlugin implements Plugin.PluginBase {
     let novelId: string | null = null;
     let tempChapter: Partial<Plugin.ChapterItem> = {};
     let i = 0;
-    let depth: number;
+    let depth: number = 0;
 
     const stateStack: ParsingState[] = [ParsingState.Idle];
     const currentState = () => stateStack[stateStack.length - 1];
@@ -547,8 +554,8 @@ class ReadNovelFullPlugin implements Plugin.PluginBase {
     const response = await fetchApi(this.site + chapterPath);
     const html = await response.text();
 
-    let depth: number;
-    let depthHide: number;
+    let depth: number = 0;
+    let depthHide: number = 0;
     const chapterHtml: string[] = [];
     let skipClosingTag = false;
     let currentTagToSkip = '';
@@ -603,7 +610,6 @@ class ReadNovelFullPlugin implements Plugin.PluginBase {
             break;
           case ParsingState.Hidden:
             if (name === 'sub') {
-              // Allow nesting of hidden states if a sub is inside a div
               pushState(ParsingState.Hidden);
             } else if (name === 'div') {
               depthHide++;
@@ -619,8 +625,6 @@ class ReadNovelFullPlugin implements Plugin.PluginBase {
           if (attrKeys.length === 0) {
             chapterHtml.push(`<${name}>`);
           } else if (attrKeys.every(key => attribs[key].trim() === '')) {
-            // Handle tags with empty attributes as text content
-            // eg: novel/rising-up-from-a-nobleman-to-intergalactic-warlord/chapter-184
             skipClosingTag = true;
             currentTagToSkip = name;
             const uppercaseName = name.replace(/\b\w/g, char =>
@@ -630,7 +634,6 @@ class ReadNovelFullPlugin implements Plugin.PluginBase {
               escapeHtml(`<${uppercaseName} ${attrKeys.join(' ')}>`),
             );
           } else {
-            // Normal tag with attributes
             const attrString = attrKeys
               .map(key => ` ${key}="${attribs[key].replace(/"/g, '&quot;')}"`)
               .join('');
@@ -714,7 +717,7 @@ class ReadNovelFullPlugin implements Plugin.PluginBase {
 
     const url = `${this.site}${searchPage}${!postSearch ? `?${params.toString()}` : ''}`;
 
-    const fetchOptions: RequestInit | undefined = postSearch
+    const fetchOptions: any = postSearch
       ? {
           method: 'POST',
           body: params.toString(),
@@ -733,7 +736,6 @@ class ReadNovelFullPlugin implements Plugin.PluginBase {
 
     const html = await result.text();
 
-    // Check for alert error messages, ported over from cheerio TODO: confirm behaviour
     const alertText = html.match(/alert\((.*?)\)/)?.[1] || '';
     if (alertText) throw new Error(alertText);
 
