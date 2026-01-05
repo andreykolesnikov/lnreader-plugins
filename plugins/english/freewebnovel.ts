@@ -242,12 +242,21 @@ class FreeWebNovelPlugin implements Plugin.PluginBase {
             if (state === ParsingState.Summary) summaryParts.push('\n');
             break;
           case 'ul':
-            if (attribs.class?.includes('info-meta'))
+            if (attribs.class?.includes('info-meta')) {
               pushState(ParsingState.Info);
+            } else if (attribs.id === 'idData') {
+              pushState(ParsingState.ChapterList);
+            }
             break;
           case 'a':
-            if (state === ParsingState.Genres)
+            if (state === ParsingState.Genres) {
               genreArray.push(attribs.title || '');
+            } else if (state === ParsingState.ChapterList && attribs.href) {
+              chapters.push({
+                name: attribs.title || '',
+                path: new URL(attribs.href, this.site).pathname.substring(1),
+              });
+            }
             break;
         }
       },
@@ -298,7 +307,11 @@ class FreeWebNovelPlugin implements Plugin.PluginBase {
             if (state === ParsingState.NovelName) popState();
             break;
           case 'ul':
-            if (state === ParsingState.Info) popState();
+            if (
+              state === ParsingState.Info ||
+              state === ParsingState.ChapterList
+            )
+              popState();
             break;
         }
       },
@@ -309,8 +322,9 @@ class FreeWebNovelPlugin implements Plugin.PluginBase {
 
     novel.summary = summaryParts.join('\n').trim();
     novel.genres = genreArray.join(', ');
+    novel.chapters = chapters;
 
-    if (novelId) {
+    if (novelId && chapters.length === 0) {
       const chaptersUrl = `${this.site}ajax/chapter-archive?novelId=${novelId}`;
       const ajaxResult = await fetchApi(chaptersUrl);
       if (ajaxResult.ok) {
@@ -403,6 +417,8 @@ class FreeWebNovelPlugin implements Plugin.PluginBase {
             id.includes('ads')
           ) {
             pushState(ParsingState.Hidden);
+          } else if (name === 'script' || name === 'style') {
+            pushState(ParsingState.Script);
           }
         } else if (state === ParsingState.Hidden) {
           if (name === 'div' || name === 'article') depth++;
@@ -426,6 +442,13 @@ class FreeWebNovelPlugin implements Plugin.PluginBase {
       onclosetag: name => {
         const state = currentState();
         if (state === ParsingState.Chapter) chapterHtml.push(`</${name}>`);
+
+        if (
+          state === ParsingState.Script &&
+          (name === 'script' || name === 'style')
+        ) {
+          popState();
+        }
 
         if (state === ParsingState.Hidden || state === ParsingState.Chapter) {
           if (name === 'div' || name === 'article') {
@@ -550,6 +573,7 @@ enum ParsingState {
   NovelName,
   NovelList,
   NovelDetails,
+  Script,
 }
 
 const plugin = new FreeWebNovelPlugin();
