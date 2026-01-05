@@ -9,7 +9,7 @@ class FreeWebNovelPlugin implements Plugin.PluginBase {
   name = 'Free Web Novel';
   icon = 'multisrc/readnovelfull/fwn.com/icon.png';
   site = 'https://freewebnovel.com/';
-  version = '2.2.3';
+  version = '2.2.4';
 
   lastSearch: number | null = null;
   searchInterval = 3400;
