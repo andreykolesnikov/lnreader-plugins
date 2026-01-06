@@ -172,10 +172,14 @@ class FreeWebNovelPlugin implements Plugin.PluginBase {
         ? filterGenre
         : filterType;
 
+    // Most Popular has no pagination
+    if (basePage === 'sort/most-popular' && pageNo > 1) {
+      return [];
+    }
+
+    url = `${this.site}${basePage}`;
     if (pageNo > 1) {
-      url = `${this.site}${basePage}?page=${pageNo}`;
-    } else {
-      url = `${this.site}${basePage}`;
+      url += `/${pageNo}`;
     }
 
     const result = await fetchApi(url);
