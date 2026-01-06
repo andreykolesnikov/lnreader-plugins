@@ -173,7 +173,7 @@ class FreeWebNovelPlugin implements Plugin.PluginBase {
         : filterType;
 
     if (pageNo > 1) {
-      url = `${this.site}${basePage}/${pageNo.toString()}.html`;
+      url = `${this.site}${basePage}?page=${pageNo}`;
     } else {
       url = `${this.site}${basePage}`;
     }
