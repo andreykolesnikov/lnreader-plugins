@@ -1,0 +1,562 @@
+--------- beginning of main
+02-05 20:29:21.933 I/NotifySyncService_9407_11083( 9407): MSG_NOTIFY_POSTED 
+02-05 20:29:21.933 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 key:0|org.amnezia.vpn|1337|null|10315 PackageName:org.amnezia.vpn IsOngoing:true PostTime:1770305361701 currentDeviceModel.connected: false
+02-05 20:29:21.934 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 , appName : AmneziaVPN
+02-05 20:29:21.934 I/NotifyLogUtils_9407_14164( 9407): isIgnoringBatteryOptimizations true
+02-05 20:29:21.935 I/NotifySyncService_9407_11083( 9407):  isOngoing = true isIncomingCall = false
+02-05 20:29:21.935 I/AccountManagerService_9407_14164( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:21.935 I/SecureDatabase_9407_14164( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:21.935 I/SecureDatabase_9407_14164( 9407): log: query: cursor count=1
+02-05 20:29:21.935 I/SecureDatabase_9407_14164( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:21.935 I/AccountManagerService_9407_14164( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:21.935 I/AccountManagerService_9407_14164( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:21.936 I/SecureDatabase_9407_14164( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:21.936 I/SecureDatabase_9407_14164( 9407): log: query: cursor count=1
+02-05 20:29:21.936 I/SecureDatabase_9407_14164( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:21.936 I/AccountManagerService_9407_14164( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:22.268 I/Finsky  (19165): [298] ndg.run(46): Stats for Executor: BlockingExecutor rvo@bd66e58[Running, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 127]
+02-05 20:29:22.268 I/Finsky  (19165): [298] ndg.run(46): Stats for Executor: LightweightExecutor rvo@ffbfbb1[Running, pool size = 4, active threads = 0, queued tasks = 0, completed tasks = 857]
+02-05 20:29:22.268 I/Finsky  (19165): [298] ndg.run(46): Stats for Executor: bgExecutor rvo@e04896[Running, pool size = 4, active threads = 0, queued tasks = 0, completed tasks = 1686]
+02-05 20:29:22.516 I/Finsky  (19165): [298] ndg.run(46): Stats for Executor: GrpcBackgroundExecutor rvo@fa0cc17[Running, pool size = 4, active threads = 0, queued tasks = 0, completed tasks = 5]
+02-05 20:29:22.941 I/NotifySyncService_9407_11083( 9407): MSG_NOTIFY_POSTED 
+02-05 20:29:22.942 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 key:0|org.amnezia.vpn|1337|null|10315 PackageName:org.amnezia.vpn IsOngoing:true PostTime:1770305362720 currentDeviceModel.connected: false
+02-05 20:29:22.943 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 , appName : AmneziaVPN
+02-05 20:29:22.943 I/NotifySyncService_9407_11083( 9407):  isOngoing = true isIncomingCall = false
+02-05 20:29:22.943 I/NotifyLogUtils_9407_30448( 9407): isIgnoringBatteryOptimizations true
+02-05 20:29:22.944 I/AccountManagerService_9407_14164( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:22.944 I/SecureDatabase_9407_14164( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:22.944 I/SecureDatabase_9407_14164( 9407): log: query: cursor count=1
+02-05 20:29:22.945 I/SecureDatabase_9407_14164( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:22.945 I/AccountManagerService_9407_14164( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:22.945 I/AccountManagerService_9407_14164( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:22.945 I/SecureDatabase_9407_14164( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:22.945 I/SecureDatabase_9407_14164( 9407): log: query: cursor count=1
+02-05 20:29:22.946 I/SecureDatabase_9407_14164( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:22.946 I/AccountManagerService_9407_14164( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:23.964 I/NotifySyncService_9407_11083( 9407): MSG_NOTIFY_POSTED 
+02-05 20:29:23.965 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 key:0|org.amnezia.vpn|1337|null|10315 PackageName:org.amnezia.vpn IsOngoing:true PostTime:1770305363736 currentDeviceModel.connected: false
+02-05 20:29:23.965 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 , appName : AmneziaVPN
+02-05 20:29:23.966 I/NotifyLogUtils_9407_30448( 9407): isIgnoringBatteryOptimizations true
+02-05 20:29:23.971 I/NotifySyncService_9407_11083( 9407):  isOngoing = true isIncomingCall = false
+02-05 20:29:23.971 I/AccountManagerService_9407_10972( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:23.972 I/SecureDatabase_9407_10972( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:23.974 I/SecureDatabase_9407_10972( 9407): log: query: cursor count=1
+02-05 20:29:23.975 I/SecureDatabase_9407_10972( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:23.975 I/AccountManagerService_9407_10972( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:23.976 I/AccountManagerService_9407_10972( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:23.976 I/SecureDatabase_9407_10972( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:23.976 I/SecureDatabase_9407_10972( 9407): log: query: cursor count=1
+02-05 20:29:23.977 I/SecureDatabase_9407_10972( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:23.977 I/AccountManagerService_9407_10972( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:24.655 I/eziaTileService(23555): Forcing GC for allocation-inactive process
+02-05 20:29:24.730 I/eziaTileService(23555): Background concurrent copying GC freed 1356KB AllocSpace bytes, 14(472KB) LOS objects, 53% free, 1810KB(1544KB_4096B)/3858KB, 2, itvl 23.615s, cpu 70.510ms, paused 151us,42us total 73.925ms
+02-05 20:29:24.970 I/NotifySyncService_9407_11083( 9407): MSG_NOTIFY_POSTED 
+02-05 20:29:24.970 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 key:0|org.amnezia.vpn|1337|null|10315 PackageName:org.amnezia.vpn IsOngoing:true PostTime:1770305364745 currentDeviceModel.connected: false
+02-05 20:29:24.971 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 , appName : AmneziaVPN
+02-05 20:29:24.971 I/NotifySyncService_9407_11083( 9407):  isOngoing = true isIncomingCall = false
+02-05 20:29:24.972 I/NotifyLogUtils_9407_10972( 9407): isIgnoringBatteryOptimizations true
+02-05 20:29:24.972 I/AccountManagerService_9407_14164( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:24.972 I/SecureDatabase_9407_14164( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:24.972 I/SecureDatabase_9407_14164( 9407): log: query: cursor count=1
+02-05 20:29:24.973 I/SecureDatabase_9407_14164( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:24.973 I/AccountManagerService_9407_14164( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:24.973 I/AccountManagerService_9407_14164( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:24.973 I/SecureDatabase_9407_14164( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:24.973 I/SecureDatabase_9407_14164( 9407): log: query: cursor count=1
+02-05 20:29:24.974 I/SecureDatabase_9407_14164( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:24.974 I/AccountManagerService_9407_14164( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:25.423 I/NearbyPresence(18773): (REDACTED) NetworkMonitorImpl onLost %s
+02-05 20:29:25.423 I/NearbyPresence(18773): (REDACTED) Skipped reporting network disconnect as there's still active networks: {%s}.
+02-05 20:29:25.427 I/NearbyMediums(18773): [WifiNetworkV2] networkCallback doLost netId:181 wifiStatusChangedCallbacks.size:0
+02-05 20:29:25.428 W/DatabaseProcessor(18773): processLocalDevices: failed to get the network info with non-null networkId.
+02-05 20:29:25.430 I/NearbyMediums(18773): (REDACTED) Querying wifi usable channels failed with exception
+02-05 20:29:25.430 I/NearbyMediums(18773): java.lang.SecurityException: Location mode is disabled for the device
+02-05 20:29:25.430 I/NearbyMediums(18773): 	at android.os.Parcel.createExceptionOrNull(Parcel.java:3353)
+02-05 20:29:25.430 I/NearbyMediums(18773): 	at android.os.Parcel.createException(Parcel.java:3337)
+02-05 20:29:25.430 I/NearbyMediums(18773): 	at android.os.Parcel.readException(Parcel.java:3320)
+02-05 20:29:25.430 I/NearbyMediums(18773): 	at android.os.Parcel.readException(Parcel.java:3262)
+02-05 20:29:25.430 I/NearbyMediums(18773): 	at android.net.wifi.IWifiManager$Stub$Proxy.getUsableChannels(IWifiManager.java:8164)
+02-05 20:29:25.430 I/NearbyMediums(18773): 	at android.net.wifi.WifiManager.getUsableChannels(WifiManager.java:11410)
+02-05 20:29:25.430 I/NearbyMediums(18773): 	at dgnt.y(:com.google.android.gms@260461035@26.04.61 (260400-863006395):21)
+02-05 20:29:25.430 I/NearbyMediums(18773): 	at dgnt.q(:com.google.android.gms@260461035@26.04.61 (260400-863006395):16)
+02-05 20:29:25.430 I/NearbyMediums(18773): 	at dgnt.m(:com.google.android.gms@260461035@26.04.61 (260400-863006395):24)
+02-05 20:29:25.430 I/NearbyMediums(18773): 	at dhgt.run(:com.google.android.gms@260461035@26.04.61 (260400-863006395):9)
+02-05 20:29:25.430 I/NearbyMediums(18773): 	at bfcv.c(:com.google.android.gms@260461035@26.04.61 (260400-863006395):50)
+02-05 20:29:25.430 I/NearbyMediums(18773): 	at bfcv.run(:com.google.android.gms@260461035@26.04.61 (260400-863006395):66)
+02-05 20:29:25.430 I/NearbyMediums(18773): 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1156)
+02-05 20:29:25.430 I/NearbyMediums(18773): 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:651)
+02-05 20:29:25.430 I/NearbyMediums(18773): 	at bfim.run(:com.google.android.gms@260461035@26.04.61 (260400-863006395):8)
+02-05 20:29:25.430 I/NearbyMediums(18773): 	at java.lang.Thread.run(Thread.java:1149)
+02-05 20:29:25.430 I/NearbyMediums(18773): Caused by: android.os.RemoteException: Remote stack trace:
+02-05 20:29:25.430 I/NearbyMediums(18773): 	at com.android.server.wifi.util.WifiPermissionsUtil.enforceNearbyDevicesPermission(WifiPermissionsUtil.java:314)
+02-05 20:29:25.430 I/NearbyMediums(18773): 	at com.android.server.wifi.WifiServiceImpl.getUsableChannels(WifiServiceImpl.java:8819)
+02-05 20:29:25.430 I/NearbyMediums(18773): 	at android.net.wifi.IWifiManager$Stub.onTransact$getUsableChannels$(IWifiManager.java:11853)
+02-05 20:29:25.430 I/NearbyMediums(18773): 	at android.net.wifi.IWifiManager$Stub.onTransact(IWifiManager.java:4018)
+02-05 20:29:25.430 I/NearbyMediums(18773): 	at android.os.Binder.execTransactInternal(Binder.java:1441)
+02-05 20:29:25.430 I/NearbyMediums(18773): [DeviceCapabilities] Skip refreshing cached wifi channels because it is not supported (refreshCacheWifiChannelsRightAfterNetworkCallbackInvoked:true isWifiGetUsableChannelsSupported:false)
+02-05 20:29:25.994 I/NotifySyncService_9407_11083( 9407): MSG_NOTIFY_POSTED 
+02-05 20:29:25.994 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 key:0|org.amnezia.vpn|1337|null|10315 PackageName:org.amnezia.vpn IsOngoing:true PostTime:1770305365761 currentDeviceModel.connected: false
+02-05 20:29:25.995 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 , appName : AmneziaVPN
+02-05 20:29:25.995 I/NotifySyncService_9407_11083( 9407):  isOngoing = true isIncomingCall = false
+02-05 20:29:25.995 I/NotifyLogUtils_9407_14164( 9407): isIgnoringBatteryOptimizations true
+02-05 20:29:25.996 I/AccountManagerService_9407_10972( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:25.996 I/SecureDatabase_9407_10972( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:25.998 I/SecureDatabase_9407_10972( 9407): log: query: cursor count=1
+02-05 20:29:25.998 I/SecureDatabase_9407_10972( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:25.998 I/AccountManagerService_9407_10972( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:25.999 I/AccountManagerService_9407_10972( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:26.000 I/SecureDatabase_9407_10972( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:26.000 I/SecureDatabase_9407_10972( 9407): log: query: cursor count=1
+02-05 20:29:26.000 I/SecureDatabase_9407_10972( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:26.000 I/AccountManagerService_9407_10972( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:27.011 I/NotifySyncService_9407_11083( 9407): MSG_NOTIFY_POSTED 
+02-05 20:29:27.011 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 key:0|org.amnezia.vpn|1337|null|10315 PackageName:org.amnezia.vpn IsOngoing:true PostTime:1770305366779 currentDeviceModel.connected: false
+02-05 20:29:27.011 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 , appName : AmneziaVPN
+02-05 20:29:27.012 I/NotifySyncService_9407_11083( 9407):  isOngoing = true isIncomingCall = false
+02-05 20:29:27.012 I/NotifyLogUtils_9407_14164( 9407): isIgnoringBatteryOptimizations true
+02-05 20:29:27.013 I/AccountManagerService_9407_10972( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:27.013 I/SecureDatabase_9407_10972( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:27.013 I/SecureDatabase_9407_10972( 9407): log: query: cursor count=1
+02-05 20:29:27.014 I/SecureDatabase_9407_10972( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:27.014 I/AccountManagerService_9407_10972( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:27.014 I/AccountManagerService_9407_10972( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:27.014 I/SecureDatabase_9407_10972( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:27.014 I/SecureDatabase_9407_10972( 9407): log: query: cursor count=1
+02-05 20:29:27.014 I/SecureDatabase_9407_10972( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:27.014 I/AccountManagerService_9407_10972( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:28.010 I/NotifySyncService_9407_11083( 9407): MSG_NOTIFY_POSTED 
+02-05 20:29:28.011 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 key:0|org.amnezia.vpn|1337|null|10315 PackageName:org.amnezia.vpn IsOngoing:true PostTime:1770305367786 currentDeviceModel.connected: false
+02-05 20:29:28.011 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 , appName : AmneziaVPN
+02-05 20:29:28.017 I/NotifySyncService_9407_11083( 9407):  isOngoing = true isIncomingCall = false
+02-05 20:29:28.023 I/NotifyLogUtils_9407_10972( 9407): isIgnoringBatteryOptimizations true
+02-05 20:29:28.026 I/AccountManagerService_9407_14164( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:28.026 I/SecureDatabase_9407_14164( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:28.026 I/SecureDatabase_9407_14164( 9407): log: query: cursor count=1
+02-05 20:29:28.026 I/SecureDatabase_9407_14164( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:28.026 I/AccountManagerService_9407_14164( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:28.027 I/AccountManagerService_9407_14164( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:28.027 I/SecureDatabase_9407_14164( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:28.027 I/SecureDatabase_9407_14164( 9407): log: query: cursor count=1
+02-05 20:29:28.027 I/SecureDatabase_9407_14164( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:28.027 I/AccountManagerService_9407_14164( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:28.053 I/MediaSyncManager_9407_12900( 9407): SettingsContentObserver onChange onSync true
+02-05 20:29:28.058 I/MediaSyncManager_9407_12900( 9407): SettingsContentObserver onChange onSync true
+02-05 20:29:28.093 I/i.health:device( 9407): Background young concurrent copying GC freed 8045KB AllocSpace bytes, 2(72KB) LOS objects, 48% free, 8361KB(2000KB_448KB)/15MB, 4, itvl 24.356s, cpu 36.197ms, paused 73us,36us total 65.851ms
+02-05 20:29:28.097 W/System  ( 9407): A resource failed to call CursorWindow.close. 
+02-05 20:29:28.097 W/System  ( 9407): A resource failed to call AbstractCursor.close. 
+02-05 20:29:28.097 W/System  ( 9407): A resource failed to call CursorWindow.close. 
+02-05 20:29:28.097 W/System  ( 9407): A resource failed to call AbstractCursor.close. 
+02-05 20:29:28.097 W/System  ( 9407): A resource failed to call CursorWindow.close. 
+02-05 20:29:28.097 W/System  ( 9407): A resource failed to call AbstractCursor.close. 
+02-05 20:29:28.097 W/System  ( 9407): A resource failed to call CursorWindow.close. 
+02-05 20:29:28.097 W/System  ( 9407): A resource failed to call AbstractCursor.close. 
+02-05 20:29:28.097 W/System  ( 9407): A resource failed to call CursorWindow.close. 
+02-05 20:29:28.097 W/System  ( 9407): A resource failed to call AbstractCursor.close. 
+02-05 20:29:28.097 W/System  ( 9407): A resource failed to call CursorWindow.close. 
+02-05 20:29:28.097 W/System  ( 9407): A resource failed to call AbstractCursor.close. 
+02-05 20:29:28.097 W/System  ( 9407): A resource failed to call CursorWindow.close. 
+02-05 20:29:28.097 W/System  ( 9407): A resource failed to call AbstractCursor.close. 
+02-05 20:29:28.097 W/System  ( 9407): A resource failed to call CursorWindow.close. 
+02-05 20:29:28.097 W/System  ( 9407): A resource failed to call AbstractCursor.close. 
+02-05 20:29:28.097 W/System  ( 9407): A resource failed to call CursorWindow.close. 
+02-05 20:29:28.097 W/System  ( 9407): A resource failed to call AbstractCursor.close. 
+02-05 20:29:28.097 W/System  ( 9407): A resource failed to call CursorWindow.close. 
+02-05 20:29:28.097 W/System  ( 9407): A resource failed to call AbstractCursor.close. 
+02-05 20:29:28.097 W/System  ( 9407): A resource failed to call CursorWindow.close. 
+02-05 20:29:28.097 W/System  ( 9407): A resource failed to call AbstractCursor.close. 
+02-05 20:29:28.097 W/System  ( 9407): A resource failed to call CursorWindow.close. 
+02-05 20:29:28.097 W/System  ( 9407): A resource failed to call AbstractCursor.close. 
+02-05 20:29:28.097 W/System  ( 9407): A resource failed to call CursorWindow.close. 
+02-05 20:29:28.098 W/System  ( 9407): A resource failed to call AbstractCursor.close. 
+02-05 20:29:28.098 W/System  ( 9407): A resource failed to call CursorWindow.close. 
+02-05 20:29:28.098 W/System  ( 9407): A resource failed to call AbstractCursor.close. 
+02-05 20:29:28.098 W/System  ( 9407): A resource failed to call CursorWindow.close. 
+02-05 20:29:28.098 W/System  ( 9407): A resource failed to call AbstractCursor.close. 
+02-05 20:29:28.098 W/System  ( 9407): A resource failed to call CursorWindow.close. 
+02-05 20:29:28.098 W/System  ( 9407): A resource failed to call AbstractCursor.close. 
+02-05 20:29:28.098 W/System  ( 9407): A resource failed to call CursorWindow.close. 
+02-05 20:29:28.098 W/System  ( 9407): A resource failed to call AbstractCursor.close. 
+02-05 20:29:28.099 W/System  ( 9407): A resource failed to call CursorWindow.close. 
+02-05 20:29:28.099 W/System  ( 9407): A resource failed to call AbstractCursor.close. 
+02-05 20:29:28.100 W/System  ( 9407): A resource failed to call CursorWindow.close. 
+02-05 20:29:28.101 W/System  ( 9407): A resource failed to call AbstractCursor.close. 
+02-05 20:29:28.101 W/System  ( 9407): A resource failed to call CursorWindow.close. 
+02-05 20:29:28.101 W/System  ( 9407): A resource failed to call AbstractCursor.close. 
+02-05 20:29:28.101 W/System  ( 9407): A resource failed to call CursorWindow.close. 
+02-05 20:29:28.101 W/System  ( 9407): A resource failed to call AbstractCursor.close. 
+02-05 20:29:28.101 W/System  ( 9407): A resource failed to call CursorWindow.close. 
+02-05 20:29:28.101 W/System  ( 9407): A resource failed to call AbstractCursor.close. 
+02-05 20:29:28.101 W/System  ( 9407): A resource failed to call CursorWindow.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call AbstractCursor.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call CursorWindow.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call AbstractCursor.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call CursorWindow.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call AbstractCursor.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call CursorWindow.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call AbstractCursor.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call CursorWindow.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call AbstractCursor.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call CursorWindow.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call AbstractCursor.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call CursorWindow.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call AbstractCursor.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call CursorWindow.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call AbstractCursor.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call CursorWindow.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call AbstractCursor.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call CursorWindow.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call AbstractCursor.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call CursorWindow.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call AbstractCursor.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call CursorWindow.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call AbstractCursor.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call CursorWindow.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call AbstractCursor.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call CursorWindow.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call AbstractCursor.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call CursorWindow.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call AbstractCursor.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call CursorWindow.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call AbstractCursor.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call CursorWindow.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call AbstractCursor.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call CursorWindow.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call AbstractCursor.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call CursorWindow.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call AbstractCursor.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call CursorWindow.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call AbstractCursor.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call CursorWindow.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call AbstractCursor.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call CursorWindow.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call AbstractCursor.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call CursorWindow.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call AbstractCursor.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call CursorWindow.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call AbstractCursor.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call CursorWindow.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call AbstractCursor.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call CursorWindow.close. 
+02-05 20:29:28.102 W/System  ( 9407): A resource failed to call AbstractCursor.close. 
+02-05 20:29:28.998 I/NotifySyncService_9407_11083( 9407): MSG_NOTIFY_POSTED 
+02-05 20:29:28.998 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 key:0|org.amnezia.vpn|1337|null|10315 PackageName:org.amnezia.vpn IsOngoing:true PostTime:1770305368789 currentDeviceModel.connected: false
+02-05 20:29:28.998 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 , appName : AmneziaVPN
+02-05 20:29:28.998 I/NotifySyncService_9407_11083( 9407):  isOngoing = true isIncomingCall = false
+02-05 20:29:28.998 I/NotifyLogUtils_9407_30448( 9407): isIgnoringBatteryOptimizations true
+02-05 20:29:28.998 I/AccountManagerService_9407_14164( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:28.999 I/SecureDatabase_9407_14164( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:28.999 I/SecureDatabase_9407_14164( 9407): log: query: cursor count=1
+02-05 20:29:29.031 I/SecureDatabase_9407_14164( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:29.031 I/AccountManagerService_9407_14164( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:29.031 I/AccountManagerService_9407_14164( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:29.031 I/SecureDatabase_9407_14164( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:29.032 I/SecureDatabase_9407_14164( 9407): log: query: cursor count=1
+02-05 20:29:29.032 I/SecureDatabase_9407_14164( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:29.032 I/AccountManagerService_9407_14164( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:29.366 I/ActivityTaskManager( 2512): Displayed com.tadami.aurora.dev/eu.kanade.tachiyomi.ui.main.MainActivity for user 0: +1s983ms
+02-05 20:29:29.413 V/InputMethod( 8299): unbindInput(): binding=InputBinding{android.os.BinderProxy@f0d1b05 / uid 10094 / pid 5115} ic=RemoteInputConnection{idHash=#5c68efb}
+02-05 20:29:29.415 V/InputMethod( 8299): bindInput(): binding=InputBinding{android.os.BinderProxy@d651fd7 / uid 10859 / pid 23919} ic=RemoteInputConnection{idHash=#b0c40c4}
+02-05 20:29:29.415 I/FontLog (18773): (REDACTED) Received query %s, URI %s
+02-05 20:29:29.415 I/FontLog (18773): (REDACTED) Query [%s] resolved to %s
+02-05 20:29:29.418 I/FontLog (18773): (REDACTED) Fetch %s end status %s
+02-05 20:29:29.418 V/InputMethod( 8299): startInput(): editor=android.view.inputmethod.EditorInfo@b8b7bad
+02-05 20:29:29.418 V/InputMethodService( 8299): CALL: doFinishInput
+02-05 20:29:29.418 D/InlineSuggestionSessionController( 8299): notifyOnFinishInput
+02-05 20:29:29.418 V/InputMethodService( 8299): CALL: onFinishInput
+02-05 20:29:29.418 I/GoogleInputMethodService( 8299): GoogleInputMethodService.onFinishInput():2092 
+02-05 20:29:29.420 I/FontLog (18773): (REDACTED) Pulling font file for id = %d, cache size = %d
+02-05 20:29:29.423 I/FontLog (18773): (REDACTED) Pulling font file for id = %d, cache size = %d
+02-05 20:29:29.426 I/Module  ( 8299): DeviceLockedStatusModuleProvider$Module.updateDeviceLockedStatus():103 repeatCheckTimes = 0, locked = false
+02-05 20:29:29.426 V/InputMethodService( 8299): finishStylusHandwriting()
+02-05 20:29:29.426 D/InlineSuggestionSessionController( 8299): notifyOnStartInput: com.tadami.aurora.dev, 0
+02-05 20:29:29.426 V/InputMethodService( 8299): CALL: onStartInput
+02-05 20:29:29.427 I/GoogleInputMethodService( 8299): GoogleInputMethodService.onStartInput():1349 onStartInput(EditorInfo{EditorInfo{packageName=com.tadami.aurora.dev, inputType=0, inputTypeString=NULL, enableLearning=false, autoCorrection=false, autoComplete=false, imeOptions=0, privateImeOptions=null, actionName=UNSPECIFIED, actionLabel=null, initialSelStart=-1, initialSelEnd=-1, initialCapsMode=0, label=null, fieldId=0, fieldName=null, extras=null, hintText=null, hintLocales=[]}}, false)
+02-05 20:29:29.427 I/Module  ( 8299): DeviceLockedStatusModuleProvider$Module.updateDeviceLockedStatus():103 repeatCheckTimes = 1, locked = false
+02-05 20:29:30.025 I/NotifySyncService_9407_11083( 9407): MSG_NOTIFY_POSTED 
+02-05 20:29:30.025 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 key:0|org.amnezia.vpn|1337|null|10315 PackageName:org.amnezia.vpn IsOngoing:true PostTime:1770305369797 currentDeviceModel.connected: false
+02-05 20:29:30.025 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 , appName : AmneziaVPN
+02-05 20:29:30.025 I/NotifySyncService_9407_11083( 9407):  isOngoing = true isIncomingCall = false
+02-05 20:29:30.026 I/NotifyLogUtils_9407_14164( 9407): isIgnoringBatteryOptimizations true
+02-05 20:29:30.028 I/AccountManagerService_9407_30448( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:30.029 I/SecureDatabase_9407_30448( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:30.029 I/SecureDatabase_9407_30448( 9407): log: query: cursor count=1
+02-05 20:29:30.029 I/SecureDatabase_9407_30448( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:30.030 I/AccountManagerService_9407_30448( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:30.030 I/AccountManagerService_9407_30448( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:30.031 I/SecureDatabase_9407_30448( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:30.031 I/SecureDatabase_9407_30448( 9407): log: query: cursor count=1
+02-05 20:29:30.031 I/SecureDatabase_9407_30448( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:30.032 I/AccountManagerService_9407_30448( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:31.034 I/NotifySyncService_9407_11083( 9407): MSG_NOTIFY_POSTED 
+02-05 20:29:31.034 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 key:0|org.amnezia.vpn|1337|null|10315 PackageName:org.amnezia.vpn IsOngoing:true PostTime:1770305370807 currentDeviceModel.connected: false
+02-05 20:29:31.034 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 , appName : AmneziaVPN
+02-05 20:29:31.034 I/NotifySyncService_9407_11083( 9407):  isOngoing = true isIncomingCall = false
+02-05 20:29:31.035 I/AccountManagerService_9407_14164( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:31.035 I/SecureDatabase_9407_14164( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:31.036 I/SecureDatabase_9407_14164( 9407): log: query: cursor count=1
+02-05 20:29:31.036 I/SecureDatabase_9407_14164( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:31.036 I/AccountManagerService_9407_14164( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:31.036 I/AccountManagerService_9407_14164( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:31.036 I/SecureDatabase_9407_14164( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:31.036 I/SecureDatabase_9407_14164( 9407): log: query: cursor count=1
+02-05 20:29:31.036 I/SecureDatabase_9407_14164( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:31.036 I/AccountManagerService_9407_14164( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:31.037 I/NotifyLogUtils_9407_30448( 9407): isIgnoringBatteryOptimizations true
+02-05 20:29:32.040 I/NotifySyncService_9407_11083( 9407): MSG_NOTIFY_POSTED 
+02-05 20:29:32.040 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 key:0|org.amnezia.vpn|1337|null|10315 PackageName:org.amnezia.vpn IsOngoing:true PostTime:1770305371817 currentDeviceModel.connected: false
+02-05 20:29:32.040 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 , appName : AmneziaVPN
+02-05 20:29:32.040 I/NotifySyncService_9407_11083( 9407):  isOngoing = true isIncomingCall = false
+02-05 20:29:32.041 I/AccountManagerService_9407_4527( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:32.041 I/SecureDatabase_9407_4527( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:32.041 I/SecureDatabase_9407_4527( 9407): log: query: cursor count=1
+02-05 20:29:32.041 I/SecureDatabase_9407_4527( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:32.041 I/AccountManagerService_9407_4527( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:32.041 I/NotifyLogUtils_9407_30448( 9407): isIgnoringBatteryOptimizations true
+02-05 20:29:32.042 I/AccountManagerService_9407_4527( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:32.042 I/SecureDatabase_9407_4527( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:32.042 I/SecureDatabase_9407_4527( 9407): log: query: cursor count=1
+02-05 20:29:32.042 I/SecureDatabase_9407_4527( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:32.042 I/AccountManagerService_9407_4527( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:32.832 D/AmneziaWG/awg0(17230): peer(QRxJ…mo0A) - Sending keepalive packet
+02-05 20:29:33.050 I/NotifySyncService_9407_11083( 9407): MSG_NOTIFY_POSTED 
+02-05 20:29:33.050 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 key:0|org.amnezia.vpn|1337|null|10315 PackageName:org.amnezia.vpn IsOngoing:true PostTime:1770305372828 currentDeviceModel.connected: false
+02-05 20:29:33.051 I/NotifyLogUtils_9407_4527( 9407): isIgnoringBatteryOptimizations true
+02-05 20:29:33.053 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 , appName : AmneziaVPN
+02-05 20:29:33.053 I/AccountManagerService_9407_30448( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:33.054 I/SecureDatabase_9407_30448( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:33.054 I/SecureDatabase_9407_30448( 9407): log: query: cursor count=1
+02-05 20:29:33.054 I/SecureDatabase_9407_30448( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:33.054 I/AccountManagerService_9407_30448( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:33.061 I/NotifySyncService_9407_11083( 9407):  isOngoing = true isIncomingCall = false
+02-05 20:29:33.061 I/AccountManagerService_9407_30448( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:33.062 I/SecureDatabase_9407_30448( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:33.062 I/SecureDatabase_9407_30448( 9407): log: query: cursor count=1
+02-05 20:29:33.064 I/SecureDatabase_9407_30448( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:33.064 I/AccountManagerService_9407_30448( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:34.060 I/NotifySyncService_9407_11083( 9407): MSG_NOTIFY_POSTED 
+02-05 20:29:34.061 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 key:0|org.amnezia.vpn|1337|null|10315 PackageName:org.amnezia.vpn IsOngoing:true PostTime:1770305373833 currentDeviceModel.connected: false
+02-05 20:29:34.061 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 , appName : AmneziaVPN
+02-05 20:29:34.061 I/NotifySyncService_9407_11083( 9407):  isOngoing = true isIncomingCall = false
+02-05 20:29:34.061 I/NotifyLogUtils_9407_30448( 9407): isIgnoringBatteryOptimizations true
+02-05 20:29:34.062 I/AccountManagerService_9407_14164( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:34.062 I/SecureDatabase_9407_14164( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:34.063 I/SecureDatabase_9407_14164( 9407): log: query: cursor count=1
+02-05 20:29:34.063 I/SecureDatabase_9407_14164( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:34.063 I/AccountManagerService_9407_14164( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:34.063 I/AccountManagerService_9407_14164( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:34.063 I/SecureDatabase_9407_14164( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:34.063 I/SecureDatabase_9407_14164( 9407): log: query: cursor count=1
+02-05 20:29:34.063 I/SecureDatabase_9407_14164( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:34.063 I/AccountManagerService_9407_14164( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:35.068 I/NotifySyncService_9407_11083( 9407): MSG_NOTIFY_POSTED 
+02-05 20:29:35.068 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 key:0|org.amnezia.vpn|1337|null|10315 PackageName:org.amnezia.vpn IsOngoing:true PostTime:1770305374845 currentDeviceModel.connected: false
+02-05 20:29:35.068 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 , appName : AmneziaVPN
+02-05 20:29:35.068 I/NotifySyncService_9407_11083( 9407):  isOngoing = true isIncomingCall = false
+02-05 20:29:35.068 I/NotifyLogUtils_9407_14164( 9407): isIgnoringBatteryOptimizations true
+02-05 20:29:35.071 I/AccountManagerService_9407_30448( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:35.072 I/SecureDatabase_9407_30448( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:35.073 I/SecureDatabase_9407_30448( 9407): log: query: cursor count=1
+02-05 20:29:35.074 I/SecureDatabase_9407_30448( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:35.074 I/AccountManagerService_9407_30448( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:35.074 I/AccountManagerService_9407_30448( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:35.075 I/SecureDatabase_9407_30448( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:35.075 I/SecureDatabase_9407_30448( 9407): log: query: cursor count=1
+02-05 20:29:35.077 I/SecureDatabase_9407_30448( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:35.078 I/AccountManagerService_9407_30448( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:36.082 I/NotifySyncService_9407_11083( 9407): MSG_NOTIFY_POSTED 
+02-05 20:29:36.082 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 key:0|org.amnezia.vpn|1337|null|10315 PackageName:org.amnezia.vpn IsOngoing:true PostTime:1770305375860 currentDeviceModel.connected: false
+02-05 20:29:36.082 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 , appName : AmneziaVPN
+02-05 20:29:36.082 I/NotifySyncService_9407_11083( 9407):  isOngoing = true isIncomingCall = false
+02-05 20:29:36.082 I/NotifyLogUtils_9407_30448( 9407): isIgnoringBatteryOptimizations true
+02-05 20:29:36.083 I/AccountManagerService_9407_4527( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:36.083 I/SecureDatabase_9407_4527( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:36.083 I/SecureDatabase_9407_4527( 9407): log: query: cursor count=1
+02-05 20:29:36.083 I/SecureDatabase_9407_4527( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:36.083 I/AccountManagerService_9407_4527( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:36.083 I/AccountManagerService_9407_4527( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:36.083 I/SecureDatabase_9407_4527( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:36.083 I/SecureDatabase_9407_4527( 9407): log: query: cursor count=1
+02-05 20:29:36.083 I/SecureDatabase_9407_4527( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:36.083 I/AccountManagerService_9407_4527( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:37.099 I/NotifySyncService_9407_11083( 9407): MSG_NOTIFY_POSTED 
+02-05 20:29:37.100 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 key:0|org.amnezia.vpn|1337|null|10315 PackageName:org.amnezia.vpn IsOngoing:true PostTime:1770305376878 currentDeviceModel.connected: false
+02-05 20:29:37.100 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 , appName : AmneziaVPN
+02-05 20:29:37.100 I/NotifySyncService_9407_11083( 9407):  isOngoing = true isIncomingCall = false
+02-05 20:29:37.100 I/NotifyLogUtils_9407_4527( 9407): isIgnoringBatteryOptimizations true
+02-05 20:29:37.103 I/AccountManagerService_9407_10972( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:37.104 I/SecureDatabase_9407_10972( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:37.105 I/SecureDatabase_9407_10972( 9407): log: query: cursor count=1
+02-05 20:29:37.105 I/SecureDatabase_9407_10972( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:37.105 I/AccountManagerService_9407_10972( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:37.109 I/AccountManagerService_9407_10972( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:37.109 I/SecureDatabase_9407_10972( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:37.109 I/SecureDatabase_9407_10972( 9407): log: query: cursor count=1
+02-05 20:29:37.109 I/SecureDatabase_9407_10972( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:37.109 I/AccountManagerService_9407_10972( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:37.163 I/putmethod.latin( 8299): Thread[2,tid=8302,WaitingInMainSignalCatcherLoop,Thread*=0xb4000072d88156f0,peer=0x19000570,"Signal Catcher"]: reacting to signal 3
+02-05 20:29:37.163 I/putmethod.latin( 8299): 
+02-05 20:29:37.323 I/putmethod.latin( 8299): Wrote stack traces to tombstoned
+02-05 20:29:38.013 V/InputMethod( 8299): unbindInput(): binding=InputBinding{android.os.BinderProxy@d651fd7 / uid 10859 / pid 23919} ic=RemoteInputConnection{idHash=#b0c40c4}
+02-05 20:29:38.048 I/MediaSyncManager_9407_12900( 9407): SettingsContentObserver onChange onSync true
+02-05 20:29:38.098 V/InputMethod( 8299): bindInput(): binding=InputBinding{android.os.BinderProxy@f0d1b05 / uid 10094 / pid 5115} ic=RemoteInputConnection{idHash=#2eea530}
+02-05 20:29:38.099 V/InputMethod( 8299): startInput(): editor=android.view.inputmethod.EditorInfo@91125a9
+02-05 20:29:38.099 V/InputMethodService( 8299): CALL: doFinishInput
+02-05 20:29:38.099 D/InlineSuggestionSessionController( 8299): notifyOnFinishInput
+02-05 20:29:38.099 V/InputMethodService( 8299): CALL: onFinishInput
+02-05 20:29:38.099 I/GoogleInputMethodService( 8299): GoogleInputMethodService.onFinishInput():2092 
+02-05 20:29:38.099 I/Module  ( 8299): DeviceLockedStatusModuleProvider$Module.updateDeviceLockedStatus():103 repeatCheckTimes = 0, locked = false
+02-05 20:29:38.100 V/InputMethodService( 8299): finishStylusHandwriting()
+02-05 20:29:38.100 D/InlineSuggestionSessionController( 8299): notifyOnStartInput: com.bbk.launcher2, 0
+02-05 20:29:38.100 V/InputMethodService( 8299): CALL: onStartInput
+02-05 20:29:38.100 I/GoogleInputMethodService( 8299): GoogleInputMethodService.onStartInput():1349 onStartInput(EditorInfo{EditorInfo{packageName=com.bbk.launcher2, inputType=0, inputTypeString=NULL, enableLearning=false, autoCorrection=false, autoComplete=false, imeOptions=0, privateImeOptions=null, actionName=UNSPECIFIED, actionLabel=null, initialSelStart=-1, initialSelEnd=-1, initialCapsMode=0, label=null, fieldId=0, fieldName=null, extras=null, hintText=null, hintLocales=[]}}, false)
+02-05 20:29:38.100 I/Module  ( 8299): DeviceLockedStatusModuleProvider$Module.updateDeviceLockedStatus():103 repeatCheckTimes = 1, locked = false
+02-05 20:29:38.113 I/NotifySyncService_9407_11083( 9407): MSG_NOTIFY_POSTED 
+02-05 20:29:38.113 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 key:0|org.amnezia.vpn|1337|null|10315 PackageName:org.amnezia.vpn IsOngoing:true PostTime:1770305377889 currentDeviceModel.connected: false
+02-05 20:29:38.115 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 , appName : AmneziaVPN
+02-05 20:29:38.115 I/NotifySyncService_9407_11083( 9407):  isOngoing = true isIncomingCall = false
+02-05 20:29:38.116 I/NotifyLogUtils_9407_14164( 9407): isIgnoringBatteryOptimizations true
+02-05 20:29:38.117 I/AccountManagerService_9407_30448( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:38.118 I/SecureDatabase_9407_30448( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:38.118 I/SecureDatabase_9407_30448( 9407): log: query: cursor count=1
+02-05 20:29:38.118 I/SecureDatabase_9407_30448( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:38.118 I/AccountManagerService_9407_30448( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:38.121 I/AccountManagerService_9407_30448( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:38.121 I/SecureDatabase_9407_30448( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:38.121 I/SecureDatabase_9407_30448( 9407): log: query: cursor count=1
+02-05 20:29:38.122 I/SecureDatabase_9407_30448( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:38.122 I/AccountManagerService_9407_30448( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:39.130 I/NotifySyncService_9407_11083( 9407): MSG_NOTIFY_POSTED 
+02-05 20:29:39.131 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 key:0|org.amnezia.vpn|1337|null|10315 PackageName:org.amnezia.vpn IsOngoing:true PostTime:1770305378909 currentDeviceModel.connected: false
+02-05 20:29:39.131 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 , appName : AmneziaVPN
+02-05 20:29:39.131 I/NotifySyncService_9407_11083( 9407):  isOngoing = true isIncomingCall = false
+02-05 20:29:39.131 I/NotifyLogUtils_9407_30448( 9407): isIgnoringBatteryOptimizations true
+02-05 20:29:39.132 I/AccountManagerService_9407_30448( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:39.132 I/SecureDatabase_9407_30448( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:39.132 I/SecureDatabase_9407_30448( 9407): log: query: cursor count=1
+02-05 20:29:39.132 I/SecureDatabase_9407_30448( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:39.132 I/AccountManagerService_9407_30448( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:39.133 I/AccountManagerService_9407_30448( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:39.133 I/SecureDatabase_9407_30448( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:39.133 I/SecureDatabase_9407_30448( 9407): log: query: cursor count=1
+02-05 20:29:39.133 I/SecureDatabase_9407_30448( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:39.133 I/AccountManagerService_9407_30448( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:40.147 I/NotifySyncService_9407_11083( 9407): MSG_NOTIFY_POSTED 
+02-05 20:29:40.147 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 key:0|org.amnezia.vpn|1337|null|10315 PackageName:org.amnezia.vpn IsOngoing:true PostTime:1770305379925 currentDeviceModel.connected: false
+02-05 20:29:40.148 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 , appName : AmneziaVPN
+02-05 20:29:40.148 I/NotifySyncService_9407_11083( 9407):  isOngoing = true isIncomingCall = false
+02-05 20:29:40.149 I/NotifyLogUtils_9407_4527( 9407): isIgnoringBatteryOptimizations true
+02-05 20:29:40.150 I/AccountManagerService_9407_14164( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:40.150 I/SecureDatabase_9407_14164( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:40.150 I/SecureDatabase_9407_14164( 9407): log: query: cursor count=1
+02-05 20:29:40.150 I/SecureDatabase_9407_14164( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:40.150 I/AccountManagerService_9407_14164( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:40.150 I/AccountManagerService_9407_14164( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:40.150 I/SecureDatabase_9407_14164( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:40.151 I/SecureDatabase_9407_14164( 9407): log: query: cursor count=1
+02-05 20:29:40.151 I/SecureDatabase_9407_14164( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:40.151 I/AccountManagerService_9407_14164( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:41.166 I/NotifySyncService_9407_11083( 9407): MSG_NOTIFY_POSTED 
+02-05 20:29:41.166 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 key:0|org.amnezia.vpn|1337|null|10315 PackageName:org.amnezia.vpn IsOngoing:true PostTime:1770305380941 currentDeviceModel.connected: false
+02-05 20:29:41.169 I/NotifyLogUtils_9407_14164( 9407): isIgnoringBatteryOptimizations true
+02-05 20:29:41.172 I/AccountManagerService_9407_4527( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:41.172 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 , appName : AmneziaVPN
+02-05 20:29:41.172 I/NotifySyncService_9407_11083( 9407):  isOngoing = true isIncomingCall = false
+02-05 20:29:41.172 I/SecureDatabase_9407_4527( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:41.173 I/SecureDatabase_9407_4527( 9407): log: query: cursor count=1
+02-05 20:29:41.173 I/SecureDatabase_9407_4527( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:41.173 I/AccountManagerService_9407_4527( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:41.173 I/AccountManagerService_9407_4527( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:41.173 I/SecureDatabase_9407_4527( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:41.174 I/SecureDatabase_9407_4527( 9407): log: query: cursor count=1
+02-05 20:29:41.174 I/SecureDatabase_9407_4527( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:41.174 I/AccountManagerService_9407_4527( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:42.182 I/NotifySyncService_9407_11083( 9407): MSG_NOTIFY_POSTED 
+02-05 20:29:42.182 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 key:0|org.amnezia.vpn|1337|null|10315 PackageName:org.amnezia.vpn IsOngoing:true PostTime:1770305381955 currentDeviceModel.connected: false
+02-05 20:29:42.182 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 , appName : AmneziaVPN
+02-05 20:29:42.182 I/NotifySyncService_9407_11083( 9407):  isOngoing = true isIncomingCall = false
+02-05 20:29:42.182 I/NotifyLogUtils_9407_4527( 9407): isIgnoringBatteryOptimizations true
+02-05 20:29:42.183 I/AccountManagerService_9407_30448( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:42.183 I/SecureDatabase_9407_30448( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:42.183 I/SecureDatabase_9407_30448( 9407): log: query: cursor count=1
+02-05 20:29:42.183 I/SecureDatabase_9407_30448( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:42.183 I/AccountManagerService_9407_30448( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:42.184 I/AccountManagerService_9407_30448( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:42.184 I/SecureDatabase_9407_30448( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:42.184 I/SecureDatabase_9407_30448( 9407): log: query: cursor count=1
+02-05 20:29:42.184 I/SecureDatabase_9407_30448( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:42.184 I/AccountManagerService_9407_30448( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:43.196 I/NotifySyncService_9407_11083( 9407): MSG_NOTIFY_POSTED 
+02-05 20:29:43.196 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 key:0|org.amnezia.vpn|1337|null|10315 PackageName:org.amnezia.vpn IsOngoing:true PostTime:1770305382969 currentDeviceModel.connected: false
+02-05 20:29:43.196 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 , appName : AmneziaVPN
+02-05 20:29:43.198 I/NotifyLogUtils_9407_30448( 9407): isIgnoringBatteryOptimizations true
+02-05 20:29:43.198 I/NotifySyncService_9407_11083( 9407):  isOngoing = true isIncomingCall = false
+02-05 20:29:43.198 I/AccountManagerService_9407_30448( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:43.199 I/SecureDatabase_9407_30448( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:43.199 I/SecureDatabase_9407_30448( 9407): log: query: cursor count=1
+02-05 20:29:43.199 I/SecureDatabase_9407_30448( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:43.199 I/AccountManagerService_9407_30448( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:43.200 I/AccountManagerService_9407_30448( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:43.200 I/SecureDatabase_9407_30448( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:43.200 I/SecureDatabase_9407_30448( 9407): log: query: cursor count=1
+02-05 20:29:43.200 I/SecureDatabase_9407_30448( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:43.200 I/AccountManagerService_9407_30448( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:44.205 I/NotifySyncService_9407_11083( 9407): MSG_NOTIFY_POSTED 
+02-05 20:29:44.205 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 key:0|org.amnezia.vpn|1337|null|10315 PackageName:org.amnezia.vpn IsOngoing:true PostTime:1770305383982 currentDeviceModel.connected: false
+02-05 20:29:44.205 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 , appName : AmneziaVPN
+02-05 20:29:44.205 I/NotifySyncService_9407_11083( 9407):  isOngoing = true isIncomingCall = false
+02-05 20:29:44.206 I/NotifyLogUtils_9407_10972( 9407): isIgnoringBatteryOptimizations true
+02-05 20:29:44.206 I/AccountManagerService_9407_30448( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:44.207 I/SecureDatabase_9407_30448( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:44.207 I/SecureDatabase_9407_30448( 9407): log: query: cursor count=1
+02-05 20:29:44.207 I/SecureDatabase_9407_30448( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:44.207 I/AccountManagerService_9407_30448( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:44.207 I/AccountManagerService_9407_30448( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:44.207 I/SecureDatabase_9407_30448( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:44.207 I/SecureDatabase_9407_30448( 9407): log: query: cursor count=1
+02-05 20:29:44.207 I/SecureDatabase_9407_30448( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:44.207 I/AccountManagerService_9407_30448( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:45.222 I/NotifySyncService_9407_11083( 9407): MSG_NOTIFY_POSTED 
+02-05 20:29:45.222 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 key:0|org.amnezia.vpn|1337|null|10315 PackageName:org.amnezia.vpn IsOngoing:true PostTime:1770305384995 currentDeviceModel.connected: false
+02-05 20:29:45.223 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 , appName : AmneziaVPN
+02-05 20:29:45.223 I/NotifySyncService_9407_11083( 9407):  isOngoing = true isIncomingCall = false
+02-05 20:29:45.223 I/NotifyLogUtils_9407_30448( 9407): isIgnoringBatteryOptimizations true
+02-05 20:29:45.225 I/AccountManagerService_9407_10972( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:45.225 I/SecureDatabase_9407_10972( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:45.226 I/SecureDatabase_9407_10972( 9407): log: query: cursor count=1
+02-05 20:29:45.226 I/SecureDatabase_9407_10972( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:45.227 I/AccountManagerService_9407_10972( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:45.227 I/AccountManagerService_9407_10972( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:45.228 I/SecureDatabase_9407_10972( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:45.228 I/SecureDatabase_9407_10972( 9407): log: query: cursor count=1
+02-05 20:29:45.228 I/SecureDatabase_9407_10972( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:45.229 I/AccountManagerService_9407_10972( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:46.244 I/NotifySyncService_9407_11083( 9407): MSG_NOTIFY_POSTED 
+02-05 20:29:46.244 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 key:0|org.amnezia.vpn|1337|null|10315 PackageName:org.amnezia.vpn IsOngoing:true PostTime:1770305386010 currentDeviceModel.connected: false
+02-05 20:29:46.245 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 , appName : AmneziaVPN
+02-05 20:29:46.245 I/NotifySyncService_9407_11083( 9407):  isOngoing = true isIncomingCall = false
+02-05 20:29:46.246 I/NotifyLogUtils_9407_10972( 9407): isIgnoringBatteryOptimizations true
+02-05 20:29:46.246 I/AccountManagerService_9407_30448( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:46.247 I/SecureDatabase_9407_30448( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:46.247 I/SecureDatabase_9407_30448( 9407): log: query: cursor count=1
+02-05 20:29:46.248 I/SecureDatabase_9407_30448( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:46.248 I/AccountManagerService_9407_30448( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:46.248 I/AccountManagerService_9407_30448( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:46.249 I/SecureDatabase_9407_30448( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:46.249 I/SecureDatabase_9407_30448( 9407): log: query: cursor count=1
+02-05 20:29:46.250 I/SecureDatabase_9407_30448( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:46.250 I/AccountManagerService_9407_30448( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:47.254 I/NotifySyncService_9407_11083( 9407): MSG_NOTIFY_POSTED 
+02-05 20:29:47.254 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 key:0|org.amnezia.vpn|1337|null|10315 PackageName:org.amnezia.vpn IsOngoing:true PostTime:1770305387028 currentDeviceModel.connected: false
+02-05 20:29:47.255 I/NotifySyncService_9407_11083( 9407): onNotificationPosted Id:1337 , appName : AmneziaVPN
+02-05 20:29:47.256 I/NotifyLogUtils_9407_30448( 9407): isIgnoringBatteryOptimizations true
+02-05 20:29:47.256 I/NotifySyncService_9407_11083( 9407):  isOngoing = true isIncomingCall = false
+02-05 20:29:47.257 I/AccountManagerService_9407_10972( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:47.258 I/SecureDatabase_9407_10972( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:47.259 I/SecureDatabase_9407_10972( 9407): log: query: cursor count=1
+02-05 20:29:47.259 I/SecureDatabase_9407_10972( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:47.260 I/AccountManagerService_9407_10972( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018
+02-05 20:29:47.260 I/AccountManagerService_9407_10972( 9407): log: getAccounts: accountType com.xiaomi, caller's uid 10616, pid 9407
+02-05 20:29:47.261 I/SecureDatabase_9407_10972( 9407): log: query: accounts, columns=[_id,type,name], selection=null, selectionArgs=null, groupBy=null, having=null, orderBy=null, limit=null
+02-05 20:29:47.261 I/SecureDatabase_9407_10972( 9407): log: query: cursor count=1
+02-05 20:29:47.262 I/SecureDatabase_9407_10972( 9407): log: query: row=[1,com.xiaomi,4165431018]
+02-05 20:29:47.262 I/AccountManagerService_9407_10972( 9407): log: validateAccountsAndPopulateCache>>>accountId=1 accountType=com.xiaomi accountName=4165431018

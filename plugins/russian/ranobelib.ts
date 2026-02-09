@@ -207,13 +207,20 @@ class RLIB implements Plugin.PluginBase {
           volume,
         { headers: this.user?.token },
       ).then(res => res.json());
-      chapterText =
-        result?.data?.content?.type == 'doc'
-          ? jsonToHtml(
-              result.data.content.content,
-              result.data.attachments || [],
-            )
-          : result?.data?.content;
+      const content = result?.data?.content;
+      if (content?.type == 'doc' && Array.isArray(content.content)) {
+        chapterText = jsonToHtml(
+          content.content,
+          result.data.attachments || [],
+        );
+      } else if (typeof content == 'string') {
+        chapterText = content;
+      } else if (Array.isArray(content?.content)) {
+        chapterText = jsonToHtml(
+          content.content,
+          result.data.attachments || [],
+        );
+      }
     }
     return chapterText;
   }
@@ -502,6 +509,9 @@ export default new RLIB();
 function jsonToHtml(json: HTML[], images: Attachment[], html = '') {
   json.forEach(element => {
     switch (element.type) {
+      case 'doc':
+        html += element.content ? jsonToHtml(element.content, images) : '';
+        break;
       case 'hardBreak':
         html += '<br>';
         break;
@@ -524,7 +534,7 @@ function jsonToHtml(json: HTML[], images: Attachment[], html = '') {
           const attrs = Object.entries(element.attrs)
             .filter(attr => attr?.[1])
             .map(attr => `${attr[0]}="${attr[1]}"`);
-          html += '<img ' + attrs.join('; ') + '>';
+          html += '<img ' + attrs.join(' ') + '>';
         }
         break;
       case 'paragraph':
@@ -532,6 +542,12 @@ function jsonToHtml(json: HTML[], images: Attachment[], html = '') {
           '<p>' +
           (element.content ? jsonToHtml(element.content, images) : '<br>') +
           '</p>';
+        break;
+      case 'bulletList':
+        html +=
+          '<ul>' +
+          (element.content ? jsonToHtml(element.content, images) : '<br>') +
+          '</ul>';
         break;
       case 'orderedList':
         html +=
@@ -570,20 +586,62 @@ function jsonToHtml(json: HTML[], images: Attachment[], html = '') {
           '</u>';
         break;
       case 'heading':
+        const level = Number(element.attrs?.level);
+        const headingLevel = level >= 1 && level <= 6 ? level : 2;
         html +=
-          '<h2>' +
+          `<h${headingLevel}>` +
           (element.content ? jsonToHtml(element.content, images) : '<br>') +
-          '</h2>';
+          `</h${headingLevel}>`;
         break;
       case 'text':
-        html += element.text;
+        html += applyTextMarks(escapeHtml(element.text || ''), element.marks);
         break;
       default:
-        html += JSON.stringify(element, null, '\t'); //maybe I missed something.
+        html += element.content ? jsonToHtml(element.content, images) : '';
         break;
     }
   });
   return html;
+}
+
+function applyTextMarks(text: string, marks?: Mark[]): string {
+  if (!marks?.length) {
+    return text;
+  }
+  return marks.reduce((acc, mark) => {
+    switch (mark.type) {
+      case 'bold':
+        return `<b>${acc}</b>`;
+      case 'italic':
+        return `<i>${acc}</i>`;
+      case 'underline':
+        return `<u>${acc}</u>`;
+      case 'strike':
+        return `<s>${acc}</s>`;
+      case 'code':
+        return `<code>${acc}</code>`;
+      case 'link': {
+        const href = mark.attrs?.href;
+        if (!href) {
+          return acc;
+        }
+        return `<a href="${escapeHtmlAttr(href)}">${acc}</a>`;
+      }
+      default:
+        return acc;
+    }
+  }, text);
+}
+
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+function escapeHtmlAttr(value: string): string {
+  return escapeHtml(value).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
 type HTML = {
@@ -591,6 +649,7 @@ type HTML = {
   content?: HTML[];
   attrs?: Attrs;
   text?: string;
+  marks?: Mark[];
 };
 
 type Attrs = {
@@ -598,6 +657,15 @@ type Attrs = {
   alt?: string | null;
   title?: string | null;
   images?: { image: string | number }[];
+  level?: number;
+  href?: string;
+};
+
+type Mark = {
+  type: string;
+  attrs?: {
+    href?: string;
+  };
 };
 
 type authorization = {
