@@ -279,11 +279,7 @@ class HexNovels implements Plugin.PluginBase {
         }
       });
 
-      const sortedChapters = [...largestBranch].sort((chapterA, chapterB) => {
-        return (
-          toChapterNumber(chapterA.number) - toChapterNumber(chapterB.number)
-        );
-      });
+      const sortedChapters = [...largestBranch].sort(compareChaptersForOrder);
 
       const chapters: Plugin.ChapterItem[] = [];
       sortedChapters.forEach((chapter, index) => {
@@ -300,7 +296,10 @@ class HexNovels implements Plugin.PluginBase {
           releaseTime: chapter.createdAt
             ? dayjs(chapter.createdAt).format('LLL')
             : undefined,
-          chapterNumber: toChapterNumber(chapter.number) || index + 1,
+          // Keep chapter number strictly monotonic in produced order.
+          // Some titles reset chapter numbering for each volume, which can
+          // otherwise cause host-side resorting like 1-1, 2-1, 1-2, 2-2...
+          chapterNumber: index + 1,
         });
       });
 
@@ -660,6 +659,47 @@ function buildChapterName(
   }
 
   return `Chapter ${fallbackNumber}`;
+}
+
+function compareChaptersForOrder(
+  chapterA: HexChapterData,
+  chapterB: HexChapterData,
+): number {
+  const volumeDiff =
+    toChapterNumber(chapterA.volume) - toChapterNumber(chapterB.volume);
+  if (volumeDiff !== 0) {
+    return volumeDiff;
+  }
+
+  const chapterDiff =
+    toChapterNumber(chapterA.number) - toChapterNumber(chapterB.number);
+  if (chapterDiff !== 0) {
+    return chapterDiff;
+  }
+
+  const dateDiff = compareIsoDates(chapterA.createdAt, chapterB.createdAt);
+  if (dateDiff !== 0) {
+    return dateDiff;
+  }
+
+  return 0;
+}
+
+function compareIsoDates(
+  left: string | undefined,
+  right: string | undefined,
+): number {
+  if (!left || !right) {
+    return 0;
+  }
+
+  const leftTime = Date.parse(left);
+  const rightTime = Date.parse(right);
+  if (!Number.isFinite(leftTime) || !Number.isFinite(rightTime)) {
+    return 0;
+  }
+
+  return leftTime - rightTime;
 }
 
 function buildCatalogQueryParams(
