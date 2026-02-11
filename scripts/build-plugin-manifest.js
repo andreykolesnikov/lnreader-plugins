@@ -20,7 +20,8 @@ const USER_CONTENT_LINK = process.env.USER_CONTENT_BASE
   : `https://raw.githubusercontent.com/${USERNAME}/${REPO}/${BRANCH}`;
 
 // Базовый URL ветки релиза
-const REPO_BASE = "https://raw.githubusercontent.com/andreykolesnikov/lnreader-plugins/plugins/v3.0.0";
+const REPO_BASE =
+  'https://raw.githubusercontent.com/andreykolesnikov/lnreader-plugins/plugins/v3.0.0';
 
 // Иконки лежат в корне ветки в public/static
 // БЫЛО: ${REPO_BASE}/.dist/public/static (ошибка)
@@ -33,8 +34,6 @@ const STATIC_LINK = `${REPO_BASE}/public/static`;
 const PLUGIN_LINK = `${REPO_BASE}/.js/src/plugins`;
 
 // USER_CONTENT_LINK можно оставить равным REPO_BASE или убрать использование
-const USER_CONTENT_LINK = REPO_BASE; 
-
 
 // const STATIC_LINK = `${USER_CONTENT_LINK}/public/static`;
 // // Use legacy .js/src/plugins path for backward compatibility
