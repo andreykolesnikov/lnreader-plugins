@@ -18,7 +18,6 @@ type AstroStateValue =
   | { [key: string]: AstroStateValue };
 
 type HexBookData = {
-  id?: string;
   slug?: string;
   status?: string;
   name?: string | Record<string, unknown>;
@@ -53,6 +52,12 @@ type HexReaderChapter = {
   content?: ProseMirrorInput | string;
 };
 
+type HexCatalogBook = {
+  slug?: string;
+  poster?: string;
+  name?: string | Record<string, unknown>;
+};
+
 const statusMap: Record<string, string> = {
   ONGOING: NovelStatus.Ongoing,
   INPROGRESS: NovelStatus.Ongoing,
@@ -60,16 +65,109 @@ const statusMap: Record<string, string> = {
   COMPLETED: NovelStatus.Completed,
   HIATUS: NovelStatus.OnHiatus,
   PAUSED: NovelStatus.OnHiatus,
+  FROZEN: NovelStatus.OnHiatus,
+  ANNOUNCE: NovelStatus.Unknown,
   CANCELLED: NovelStatus.Cancelled,
   DROPPED: NovelStatus.Cancelled,
 };
+
+const sortFieldOptions = [
+  { label: 'Views', value: 'viewsCount' },
+  { label: 'Likes', value: 'likesCount' },
+  { label: 'Chapters', value: 'chaptersCount' },
+  { label: 'Bookmarks', value: 'bookmarksCount' },
+  { label: 'Rating', value: 'averageRating' },
+  { label: 'Created Date', value: 'createdAt' },
+] as const;
+
+const sortOrderOptions = [
+  { label: 'Descending', value: 'desc' },
+  { label: 'Ascending', value: 'asc' },
+] as const;
+
+const countryOptions = [
+  { label: 'Russia', value: 'RUSSIA' },
+  { label: 'Japan', value: 'JAPAN' },
+  { label: 'Korea', value: 'KOREA' },
+  { label: 'China', value: 'CHINA' },
+  { label: 'Other', value: 'OTHER' },
+] as const;
+
+const statusOptions = [
+  { label: 'Ongoing', value: 'ONGOING' },
+  { label: 'Done', value: 'DONE' },
+  { label: 'Frozen', value: 'FROZEN' },
+  { label: 'Announced', value: 'ANNOUNCE' },
+] as const;
+
+const contentStatusOptions = [
+  { label: 'Safe', value: 'SAFE' },
+  { label: 'Unsafe', value: 'UNSAFE' },
+  { label: 'Erotic', value: 'EROTIC' },
+  { label: 'Pornographic', value: 'PORNOGRAPHIC' },
+] as const;
+
+const formatOptions = [
+  { label: 'Yonkoma', value: 'FOURTH_KOMA' },
+  { label: 'Compilation', value: 'COMPILATION' },
+  { label: 'Doujinshi', value: 'DOUJINSHI' },
+  { label: 'Webtoon', value: 'WEBTOON' },
+  { label: 'Colored', value: 'COLORED' },
+  { label: 'Artbook', value: 'ARTBOOK' },
+  { label: 'Single', value: 'SINGLE' },
+  { label: 'Light Novel', value: 'LIGHT' },
+  { label: 'Web Novel', value: 'WEB' },
+] as const;
+
+const genreOptions = [
+  { label: 'Art', value: 'art' },
+  { label: 'Action', value: 'action' },
+  { label: 'Martial Arts', value: 'martial_arts' },
+  { label: 'Vampires', value: 'vampires' },
+  { label: 'Harem', value: 'harem' },
+  { label: 'Gender Intrigue', value: 'gender_intriga' },
+  { label: 'Detective', value: 'detective' },
+  { label: 'Josei', value: 'josei' },
+  { label: 'Drama', value: 'drama' },
+  { label: 'Game', value: 'game' },
+  { label: 'Isekai', value: 'isekai' },
+  { label: 'Historical', value: 'historical' },
+  { label: 'Cyberpunk', value: 'cyberpunk' },
+  { label: 'Codomo', value: 'codomo' },
+  { label: 'Comedy', value: 'comedy' },
+  { label: 'Maho Shoujo', value: 'maho_shoujo' },
+  { label: 'Mecha', value: 'mecha' },
+  { label: 'Mystery', value: 'mystery' },
+  { label: 'Sci-Fi', value: 'sci_fi' },
+  { label: 'Omegaverse', value: 'omegavers' },
+  { label: 'Slice of Life', value: 'natural' },
+  { label: 'Post-Apocalypse', value: 'postapocalypse' },
+  { label: 'Adventure', value: 'adventure' },
+  { label: 'Psychological', value: 'psychological' },
+  { label: 'Romance', value: 'romance' },
+  { label: 'Samurai', value: 'samurai' },
+  { label: 'Supernatural', value: 'supernatural' },
+  { label: 'Shoujo', value: 'shoujo' },
+  { label: 'Shounen', value: 'shounen' },
+  { label: 'Sports', value: 'sports' },
+  { label: 'Seinen', value: 'seinen' },
+  { label: 'Tragedy', value: 'tragedy' },
+  { label: 'Thriller', value: 'thriller' },
+  { label: 'Horror', value: 'horror' },
+  { label: 'Fantastic', value: 'fantastic' },
+  { label: 'Fantasy', value: 'fantasy' },
+  { label: 'School', value: 'school' },
+  { label: 'Erotica', value: 'erotica' },
+  { label: 'Ecchi', value: 'ecchi' },
+] as const;
 
 class HexNovels implements Plugin.PluginBase {
   id = 'hexnovels';
   name = 'HexNovels';
   icon = 'src/en/hexnovels/icon.png';
   site = 'https://hexnovels.me';
-  version = '1.0.1';
+  api = 'https://api.hexnovels.me';
+  version = '1.0.2';
 
   async popularNovels(
     pageNo: number,
@@ -78,11 +176,14 @@ class HexNovels implements Plugin.PluginBase {
       filters,
     }: Plugin.PopularNovelsOptions<typeof this.filters>,
   ): Promise<Plugin.NovelItem[]> {
-    const sortParam = showLatestNovels
-      ? 'createdAt,desc'
-      : filters?.sort?.value || 'viewsCount,desc';
-    const url = `${this.site}/content?page=${pageNo - 1}&size=30&sort=${encodeURIComponent(sortParam)}`;
-    return this.fetchNovelItems(url);
+    const sortField = showLatestNovels
+      ? 'createdAt'
+      : filters?.sortField?.value || 'viewsCount';
+    const sortOrder = showLatestNovels
+      ? 'desc'
+      : filters?.sortOrder?.value || 'desc';
+
+    return this.fetchCatalogBooks(pageNo, sortField, sortOrder, '', filters);
   }
 
   async parseNovel(novelPath: string): Promise<Plugin.SourceNovel> {
@@ -91,9 +192,9 @@ class HexNovels implements Plugin.PluginBase {
     if (!result.ok) {
       throw new Error(`Could not reach ${url} (${result.status})`);
     }
+
     const body = await result.text();
     const loadedCheerio = parseHTML(body);
-
     const astroState = extractAstroState(loadedCheerio);
     const bookData = astroState
       ? getAstroValueByKey<HexBookData>(astroState, 'current-book')
@@ -215,9 +316,9 @@ class HexNovels implements Plugin.PluginBase {
     if (!result.ok) {
       throw new Error(`Could not reach ${url} (${result.status})`);
     }
+
     const body = await result.text();
     const loadedCheerio = parseHTML(body);
-
     const astroState = extractAstroState(loadedCheerio);
     const chapterData = astroState
       ? getAstroValueByKey<HexReaderChapter>(
@@ -244,19 +345,19 @@ class HexNovels implements Plugin.PluginBase {
       }
     }
 
-    const contentMatch = body.match(
+    const legacyMatch = body.match(
       /window\["current-chapter"\]\s*=\s*(\{[\s\S]*?\});?\s*<\/script>/,
     );
-    if (contentMatch?.[1]) {
+    if (legacyMatch?.[1]) {
       try {
-        const oldChapterData = JSON.parse(contentMatch[1]) as {
+        const legacyChapter = JSON.parse(legacyMatch[1]) as {
           content?: string;
         };
-        if (oldChapterData.content?.trim()) {
-          return oldChapterData.content;
+        if (legacyChapter.content?.trim()) {
+          return legacyChapter.content;
         }
       } catch {
-        // Fallback to HTML selectors below.
+        // Keep fallback selectors below.
       }
     }
 
@@ -283,29 +384,161 @@ class HexNovels implements Plugin.PluginBase {
     searchTerm: string,
     pageNo: number,
   ): Promise<Plugin.NovelItem[]> {
-    const url = `${this.site}/content?page=${pageNo - 1}&size=30&query=${encodeURIComponent(searchTerm)}`;
-    return this.fetchNovelItems(url);
+    return this.fetchCatalogBooks(
+      pageNo,
+      'viewsCount',
+      'desc',
+      searchTerm,
+      undefined,
+    );
   }
 
-  private async fetchNovelItems(url: string): Promise<Plugin.NovelItem[]> {
+  private async fetchCatalogBooks(
+    pageNo: number,
+    sortField: string,
+    sortOrder: string,
+    searchTerm: string,
+    filters: Plugin.PopularNovelsOptions<typeof this.filters>['filters'],
+  ): Promise<Plugin.NovelItem[]> {
+    const query = buildCatalogQueryParams(
+      pageNo,
+      sortField,
+      sortOrder,
+      searchTerm,
+    );
+
+    appendArrayFilters(query, 'country', filters?.countries?.value);
+    appendArrayFilters(query, 'status', filters?.statuses?.value);
+    appendArrayFilters(query, 'contentStatus', filters?.contentStatuses?.value);
+    appendArrayFilters(query, 'formats', filters?.formats?.value);
+    appendArrayFilters(query, 'labelsInclude', filters?.genres?.value?.include);
+    appendArrayFilters(query, 'labelsExclude', filters?.genres?.value?.exclude);
+
+    if (filters?.strictLabelEqual?.value) {
+      query.set('strictLabelEqual', 'true');
+    }
+
+    setNumericFilter(
+      query,
+      'averageRatingMin',
+      filters?.averageRatingMin?.value,
+    );
+    setNumericFilter(
+      query,
+      'averageRatingMax',
+      filters?.averageRatingMax?.value,
+    );
+    setNumericFilter(
+      query,
+      'chaptersCountMin',
+      filters?.chaptersCountMin?.value,
+    );
+    setNumericFilter(
+      query,
+      'chaptersCountMax',
+      filters?.chaptersCountMax?.value,
+    );
+    setNumericFilter(query, 'yearMin', filters?.yearMin?.value);
+    setNumericFilter(query, 'yearMax', filters?.yearMax?.value);
+
+    const url = `${this.api}/v2/books?${query.toString()}`;
     const result = await fetchApi(url);
     if (!result.ok) {
       throw new Error(`Could not reach ${url} (${result.status})`);
     }
-    const body = await result.text();
-    return extractNovelsFromListing(body);
+
+    const books = (await result.json()) as HexCatalogBook[];
+    return books
+      .filter(
+        book => typeof book.slug === 'string' && book.slug.trim().length > 0,
+      )
+      .map(book => ({
+        name: pickLocalizedString(book.name) || book.slug || 'Unknown',
+        path: `/content/${book.slug}`,
+        cover:
+          typeof book.poster === 'string' && book.poster.trim().length > 0
+            ? book.poster.trim()
+            : defaultCover,
+      }));
   }
 
   filters = {
-    sort: {
-      label: 'Сортировка',
-      value: 'viewsCount,desc',
-      options: [
-        { label: 'По популярности', value: 'viewsCount,desc' },
-        { label: 'По дате добавления', value: 'createdAt,desc' },
-        { label: 'По рейтингу', value: 'rating,desc' },
-      ],
+    sortField: {
+      label: 'Sort Field',
+      value: 'viewsCount',
+      options: sortFieldOptions,
       type: FilterTypes.Picker,
+    },
+    sortOrder: {
+      label: 'Sort Order',
+      value: 'desc',
+      options: sortOrderOptions,
+      type: FilterTypes.Picker,
+    },
+    countries: {
+      label: 'Countries',
+      value: [],
+      options: countryOptions,
+      type: FilterTypes.CheckboxGroup,
+    },
+    statuses: {
+      label: 'Book Status',
+      value: [],
+      options: statusOptions,
+      type: FilterTypes.CheckboxGroup,
+    },
+    contentStatuses: {
+      label: 'Content Status',
+      value: [],
+      options: contentStatusOptions,
+      type: FilterTypes.CheckboxGroup,
+    },
+    formats: {
+      label: 'Formats',
+      value: [],
+      options: formatOptions,
+      type: FilterTypes.CheckboxGroup,
+    },
+    genres: {
+      label: 'Genres',
+      value: { include: [], exclude: [] },
+      options: genreOptions,
+      type: FilterTypes.ExcludableCheckboxGroup,
+    },
+    strictLabelEqual: {
+      label: 'Strict Included Genres',
+      value: false,
+      type: FilterTypes.Switch,
+    },
+    averageRatingMin: {
+      label: 'Rating From',
+      value: '',
+      type: FilterTypes.TextInput,
+    },
+    averageRatingMax: {
+      label: 'Rating To',
+      value: '',
+      type: FilterTypes.TextInput,
+    },
+    chaptersCountMin: {
+      label: 'Chapters From',
+      value: '',
+      type: FilterTypes.TextInput,
+    },
+    chaptersCountMax: {
+      label: 'Chapters To',
+      value: '',
+      type: FilterTypes.TextInput,
+    },
+    yearMin: {
+      label: 'Year From',
+      value: '',
+      type: FilterTypes.TextInput,
+    },
+    yearMax: {
+      label: 'Year To',
+      value: '',
+      type: FilterTypes.TextInput,
     },
   } satisfies Filters;
 }
@@ -314,7 +547,7 @@ export default new HexNovels();
 
 function resolvePath(site: string, path: string): string {
   try {
-    return new URL(path, site).toString();
+    return new URL(path, site).href;
   } catch {
     const normalizedPath = path.startsWith('/') ? path : `/${path}`;
     return `${site}${normalizedPath}`;
@@ -322,11 +555,7 @@ function resolvePath(site: string, path: string): string {
 }
 
 function sanitizeNovelTitle(value: string): string {
-  return value
-    .replace(/^Новелла\s+/i, '')
-    .replace(/^Читать новеллу\s+/i, '')
-    .replace(/\s+—\s+HexNovels$/i, '')
-    .trim();
+  return value.replace(/\s+[—-]\s+HexNovels$/i, '').trim();
 }
 
 function extractNovelSlug(novelPath: string): string {
@@ -417,10 +646,10 @@ function buildChapterName(
 
   const titleParts: string[] = [];
   if (volumeNumber > 0) {
-    titleParts.push(`Том ${volumeNumber}`);
+    titleParts.push(`Volume ${volumeNumber}`);
   }
   if (chapterNumber > 0) {
-    titleParts.push(`Глава ${chapterNumber}`);
+    titleParts.push(`Chapter ${chapterNumber}`);
   }
   if (chapterName.length > 0) {
     titleParts.push(chapterName);
@@ -430,50 +659,58 @@ function buildChapterName(
     return titleParts.join(' - ');
   }
 
-  return `Глава ${fallbackNumber}`;
+  return `Chapter ${fallbackNumber}`;
 }
 
-function extractNovelsFromListing(body: string): Plugin.NovelItem[] {
-  const loadedCheerio = parseHTML(body);
-  const novels: Plugin.NovelItem[] = [];
-  const seenPaths = new Set<string>();
+function buildCatalogQueryParams(
+  pageNo: number,
+  sortField: string,
+  sortOrder: string,
+  searchTerm: string,
+): URLSearchParams {
+  const query = new URLSearchParams();
+  query.set('size', '30');
+  query.set('page', `${Math.max(pageNo - 1, 0)}`);
+  query.set('sort', `${sortField},${sortOrder}`);
 
-  loadedCheerio('a[href^="/content/"]').each((_, element) => {
-    const $element = loadedCheerio(element);
-    const href = $element.attr('href')?.trim();
-    if (!href || seenPaths.has(href)) {
-      return;
-    }
+  const normalizedSearch = searchTerm.trim();
+  if (normalizedSearch.length > 0) {
+    query.set('search', normalizedSearch);
+  }
 
-    const slug = href.replace(/^\/content\//, '').split('?')[0];
-    if (!slug || slug === 'top' || slug.includes('/')) {
-      return;
-    }
+  return query;
+}
 
-    const image = $element.find('img').first();
-    const imageTitle = image.attr('alt')?.trim();
-    const paragraphTitle = $element
-      .find('p.text-sm.line-clamp-2')
-      .first()
-      .text()
-      .trim();
-    const fallbackTitle = $element.text().replace(/\s+/g, ' ').trim();
-    const title = imageTitle || paragraphTitle || fallbackTitle;
+function appendArrayFilters(
+  query: URLSearchParams,
+  key: string,
+  values: string[] | undefined,
+): void {
+  if (!values?.length) {
+    return;
+  }
 
-    if (!title) {
-      return;
-    }
+  values
+    .map(value => value.trim())
+    .filter(value => value.length > 0)
+    .forEach(value => query.append(key, value));
+}
 
-    const cover = image.attr('src')?.replace(/&amp;/g, '&') || defaultCover;
-    seenPaths.add(href);
-    novels.push({
-      name: title,
-      path: href,
-      cover,
-    });
-  });
+function setNumericFilter(
+  query: URLSearchParams,
+  key: string,
+  rawValue: string | undefined,
+): void {
+  if (!rawValue) {
+    return;
+  }
 
-  return novels;
+  const normalized = rawValue.trim();
+  if (!/^-?\d+$/.test(normalized)) {
+    return;
+  }
+
+  query.set(key, normalized);
 }
 
 function extractAstroState(
@@ -555,7 +792,6 @@ function resolveAstroValue(
       });
       resolved = objectResult;
     } else {
-      // Primitive values in devalue state are terminal values, not references.
       resolved = target;
     }
 
