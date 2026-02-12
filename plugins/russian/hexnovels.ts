@@ -72,93 +72,93 @@ const statusMap: Record<string, string> = {
 };
 
 const sortFieldOptions = [
-  { label: 'Views', value: 'viewsCount' },
-  { label: 'Likes', value: 'likesCount' },
-  { label: 'Chapters', value: 'chaptersCount' },
-  { label: 'Bookmarks', value: 'bookmarksCount' },
-  { label: 'Rating', value: 'averageRating' },
-  { label: 'Created Date', value: 'createdAt' },
+  { label: 'Просмотры', value: 'viewsCount' },
+  { label: 'Лайки', value: 'likesCount' },
+  { label: 'Количество глав', value: 'chaptersCount' },
+  { label: 'Закладки', value: 'bookmarksCount' },
+  { label: 'Рейтинг', value: 'averageRating' },
+  { label: 'Дата добавления', value: 'createdAt' },
 ] as const;
 
 const sortOrderOptions = [
-  { label: 'Descending', value: 'desc' },
-  { label: 'Ascending', value: 'asc' },
+  { label: 'По убыванию', value: 'desc' },
+  { label: 'По возрастанию', value: 'asc' },
 ] as const;
 
 const countryOptions = [
-  { label: 'Russia', value: 'RUSSIA' },
-  { label: 'Japan', value: 'JAPAN' },
-  { label: 'Korea', value: 'KOREA' },
-  { label: 'China', value: 'CHINA' },
-  { label: 'Other', value: 'OTHER' },
+  { label: 'Россия', value: 'RUSSIA' },
+  { label: 'Япония', value: 'JAPAN' },
+  { label: 'Корея', value: 'KOREA' },
+  { label: 'Китай', value: 'CHINA' },
+  { label: 'Другое', value: 'OTHER' },
 ] as const;
 
 const statusOptions = [
-  { label: 'Ongoing', value: 'ONGOING' },
-  { label: 'Done', value: 'DONE' },
-  { label: 'Frozen', value: 'FROZEN' },
-  { label: 'Announced', value: 'ANNOUNCE' },
+  { label: 'Онгоинг', value: 'ONGOING' },
+  { label: 'Завершено', value: 'DONE' },
+  { label: 'Заморожено', value: 'FROZEN' },
+  { label: 'Анонс', value: 'ANNOUNCE' },
 ] as const;
 
 const contentStatusOptions = [
-  { label: 'Safe', value: 'SAFE' },
-  { label: 'Unsafe', value: 'UNSAFE' },
-  { label: 'Erotic', value: 'EROTIC' },
-  { label: 'Pornographic', value: 'PORNOGRAPHIC' },
+  { label: 'Безопасный', value: 'SAFE' },
+  { label: 'Небезопасный', value: 'UNSAFE' },
+  { label: 'Эротика', value: 'EROTIC' },
+  { label: 'Порнография', value: 'PORNOGRAPHIC' },
 ] as const;
 
 const formatOptions = [
-  { label: 'Yonkoma', value: 'FOURTH_KOMA' },
-  { label: 'Compilation', value: 'COMPILATION' },
-  { label: 'Doujinshi', value: 'DOUJINSHI' },
-  { label: 'Webtoon', value: 'WEBTOON' },
-  { label: 'Colored', value: 'COLORED' },
-  { label: 'Artbook', value: 'ARTBOOK' },
-  { label: 'Single', value: 'SINGLE' },
-  { label: 'Light Novel', value: 'LIGHT' },
-  { label: 'Web Novel', value: 'WEB' },
+  { label: 'Ёнкома', value: 'FOURTH_KOMA' },
+  { label: 'Сборник', value: 'COMPILATION' },
+  { label: 'Додзинси', value: 'DOUJINSHI' },
+  { label: 'Вебтун', value: 'WEBTOON' },
+  { label: 'Цветное', value: 'COLORED' },
+  { label: 'Артбук', value: 'ARTBOOK' },
+  { label: 'Сингл', value: 'SINGLE' },
+  { label: 'Ранобэ', value: 'LIGHT' },
+  { label: 'Веб-новелла', value: 'WEB' },
 ] as const;
 
 const genreOptions = [
-  { label: 'Art', value: 'art' },
-  { label: 'Action', value: 'action' },
-  { label: 'Martial Arts', value: 'martial_arts' },
-  { label: 'Vampires', value: 'vampires' },
-  { label: 'Harem', value: 'harem' },
-  { label: 'Gender Intrigue', value: 'gender_intriga' },
-  { label: 'Detective', value: 'detective' },
-  { label: 'Josei', value: 'josei' },
-  { label: 'Drama', value: 'drama' },
-  { label: 'Game', value: 'game' },
-  { label: 'Isekai', value: 'isekai' },
-  { label: 'Historical', value: 'historical' },
-  { label: 'Cyberpunk', value: 'cyberpunk' },
-  { label: 'Codomo', value: 'codomo' },
-  { label: 'Comedy', value: 'comedy' },
-  { label: 'Maho Shoujo', value: 'maho_shoujo' },
-  { label: 'Mecha', value: 'mecha' },
-  { label: 'Mystery', value: 'mystery' },
-  { label: 'Sci-Fi', value: 'sci_fi' },
-  { label: 'Omegaverse', value: 'omegavers' },
-  { label: 'Slice of Life', value: 'natural' },
-  { label: 'Post-Apocalypse', value: 'postapocalypse' },
-  { label: 'Adventure', value: 'adventure' },
-  { label: 'Psychological', value: 'psychological' },
-  { label: 'Romance', value: 'romance' },
-  { label: 'Samurai', value: 'samurai' },
-  { label: 'Supernatural', value: 'supernatural' },
-  { label: 'Shoujo', value: 'shoujo' },
-  { label: 'Shounen', value: 'shounen' },
-  { label: 'Sports', value: 'sports' },
-  { label: 'Seinen', value: 'seinen' },
-  { label: 'Tragedy', value: 'tragedy' },
-  { label: 'Thriller', value: 'thriller' },
-  { label: 'Horror', value: 'horror' },
-  { label: 'Fantastic', value: 'fantastic' },
-  { label: 'Fantasy', value: 'fantasy' },
-  { label: 'School', value: 'school' },
-  { label: 'Erotica', value: 'erotica' },
-  { label: 'Ecchi', value: 'ecchi' },
+  { label: 'Арт', value: 'art' },
+  { label: 'Боевик', value: 'action' },
+  { label: 'Боевые искусства', value: 'martial_arts' },
+  { label: 'Вампиры', value: 'vampires' },
+  { label: 'Гарем', value: 'harem' },
+  { label: 'Гендерная интрига', value: 'gender_intriga' },
+  { label: 'Детектив', value: 'detective' },
+  { label: 'Дзёсэй', value: 'josei' },
+  { label: 'Драма', value: 'drama' },
+  { label: 'Игра', value: 'game' },
+  { label: 'Исекай', value: 'isekai' },
+  { label: 'История', value: 'historical' },
+  { label: 'Киберпанк', value: 'cyberpunk' },
+  { label: 'Кодомо', value: 'codomo' },
+  { label: 'Комедия', value: 'comedy' },
+  { label: 'Махо-сёдзё', value: 'maho_shoujo' },
+  { label: 'Меха', value: 'mecha' },
+  { label: 'Мистика', value: 'mystery' },
+  { label: 'Научная фантастика', value: 'sci_fi' },
+  { label: 'Омегаверс', value: 'omegavers' },
+  { label: 'Повседневность', value: 'natural' },
+  { label: 'Постапокалиптика', value: 'postapocalypse' },
+  { label: 'Приключения', value: 'adventure' },
+  { label: 'Психология', value: 'psychological' },
+  { label: 'Романтика', value: 'romance' },
+  { label: 'Самурай', value: 'samurai' },
+  { label: 'Сверхъестественное', value: 'supernatural' },
+  { label: 'Сёдзё', value: 'shoujo' },
+  { label: 'Сёнэн', value: 'shounen' },
+  { label: 'Спорт', value: 'sports' },
+  { label: 'Сэйнэн', value: 'seinen' },
+  { label: 'Трагедия', value: 'tragedy' },
+  { label: 'Триллер', value: 'thriller' },
+  { label: 'Ужасы', value: 'horror' },
+  { label: 'Фантастика', value: 'fantastic' },
+  { label: 'Фэнтези', value: 'fantasy' },
+  { label: 'Школа', value: 'school' },
+  { label: 'Эротика', value: 'erotica' },
+  { label: 'Этти', value: 'ecchi' },
 ] as const;
 
 class HexNovels implements Plugin.PluginBase {
@@ -463,79 +463,79 @@ class HexNovels implements Plugin.PluginBase {
 
   filters = {
     sortField: {
-      label: 'Sort Field',
+      label: 'Поле сортировки',
       value: 'viewsCount',
       options: sortFieldOptions,
       type: FilterTypes.Picker,
     },
     sortOrder: {
-      label: 'Sort Order',
+      label: 'Порядок сортировки',
       value: 'desc',
       options: sortOrderOptions,
       type: FilterTypes.Picker,
     },
     countries: {
-      label: 'Countries',
+      label: 'Страны',
       value: [],
       options: countryOptions,
       type: FilterTypes.CheckboxGroup,
     },
     statuses: {
-      label: 'Book Status',
+      label: 'Статус произведения',
       value: [],
       options: statusOptions,
       type: FilterTypes.CheckboxGroup,
     },
     contentStatuses: {
-      label: 'Content Status',
+      label: 'Статус контента',
       value: [],
       options: contentStatusOptions,
       type: FilterTypes.CheckboxGroup,
     },
     formats: {
-      label: 'Formats',
+      label: 'Форматы',
       value: [],
       options: formatOptions,
       type: FilterTypes.CheckboxGroup,
     },
     genres: {
-      label: 'Genres',
+      label: 'Жанры',
       value: { include: [], exclude: [] },
       options: genreOptions,
       type: FilterTypes.ExcludableCheckboxGroup,
     },
     strictLabelEqual: {
-      label: 'Strict Included Genres',
+      label: 'Строгое совпадение включённых жанров',
       value: false,
       type: FilterTypes.Switch,
     },
     averageRatingMin: {
-      label: 'Rating From',
+      label: 'Рейтинг от',
       value: '',
       type: FilterTypes.TextInput,
     },
     averageRatingMax: {
-      label: 'Rating To',
+      label: 'Рейтинг до',
       value: '',
       type: FilterTypes.TextInput,
     },
     chaptersCountMin: {
-      label: 'Chapters From',
+      label: 'Глав от',
       value: '',
       type: FilterTypes.TextInput,
     },
     chaptersCountMax: {
-      label: 'Chapters To',
+      label: 'Глав до',
       value: '',
       type: FilterTypes.TextInput,
     },
     yearMin: {
-      label: 'Year From',
+      label: 'Год от',
       value: '',
       type: FilterTypes.TextInput,
     },
     yearMax: {
-      label: 'Year To',
+      label: 'Год до',
       value: '',
       type: FilterTypes.TextInput,
     },
@@ -645,10 +645,10 @@ function buildChapterName(
 
   const titleParts: string[] = [];
   if (volumeNumber > 0) {
-    titleParts.push(`Volume ${volumeNumber}`);
+    titleParts.push(`Том ${volumeNumber}`);
   }
   if (chapterNumber > 0) {
-    titleParts.push(`Chapter ${chapterNumber}`);
+    titleParts.push(`Глава ${chapterNumber}`);
   }
   if (chapterName.length > 0) {
     titleParts.push(chapterName);
@@ -658,7 +658,7 @@ function buildChapterName(
     return titleParts.join(' - ');
   }
 
-  return `Chapter ${fallbackNumber}`;
+  return `Глава ${fallbackNumber}`;
 }
 
 function compareChaptersForOrder(
