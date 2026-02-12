@@ -186,7 +186,7 @@ class HexNovels implements Plugin.PluginBase {
   icon = 'src/ru/hexnovels/icon.png';
   site = 'https://hexnovels.me';
   api = 'https://api.hexnovels.me';
-  version = '1.0.5';
+  version = '1.0.6';
 
   async popularNovels(
     pageNo: number,
@@ -1003,7 +1003,7 @@ async function decodeHexNovelImageToDataUrl(
 }
 
 function xorDecodeBytes(bytes: Uint8Array, secretKey: string): Uint8Array {
-  const keyBytes = new TextEncoder().encode(secretKey);
+  const keyBytes = encodeSecretKey(secretKey);
   if (!keyBytes.length) {
     return bytes;
   }
@@ -1013,6 +1013,15 @@ function xorDecodeBytes(bytes: Uint8Array, secretKey: string): Uint8Array {
     decoded[index] = bytes[index] ^ keyBytes[index % keyBytes.length];
   }
   return decoded;
+}
+
+function encodeSecretKey(secretKey: string): Uint8Array {
+  const keyLength = secretKey.length;
+  const encoded = new Uint8Array(keyLength);
+  for (let index = 0; index < keyLength; index += 1) {
+    encoded[index] = secretKey.charCodeAt(index) & 0xff;
+  }
+  return encoded;
 }
 
 function detectMimeType(bytes: Uint8Array, sourceUrl: string): string {
