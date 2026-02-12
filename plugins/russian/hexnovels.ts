@@ -58,6 +58,7 @@ type HexReaderChapter = {
 type HexRichAttachment = {
   id?: string;
   image?: string;
+  url?: string;
 };
 
 type HexRichAttachments = Record<
@@ -185,7 +186,7 @@ class HexNovels implements Plugin.PluginBase {
   icon = 'src/ru/hexnovels/icon.png';
   site = 'https://hexnovels.me';
   api = 'https://api.hexnovels.me';
-  version = '1.0.4';
+  version = '1.0.5';
 
   async popularNovels(
     pageNo: number,
@@ -343,6 +344,9 @@ class HexNovels implements Plugin.PluginBase {
           'reader-current-chapter',
         )
       : null;
+    const secretKey = astroState
+      ? getAstroValueByKey<string>(astroState, 'secret-key')
+      : null;
     const astroRichAttachments = astroState
       ? getAstroValueByKey<HexRichAttachments>(
           astroState,
@@ -357,13 +361,20 @@ class HexNovels implements Plugin.PluginBase {
       astroRichAttachments,
       apiRichAttachments,
     );
+    const hydratedRichAttachments = await hydrateRichAttachmentsImages(
+      richAttachments,
+      secretKey,
+    );
 
     if (chapterData?.content) {
       if (
         typeof chapterData.content === 'string' &&
         chapterData.content.trim().length > 0
       ) {
-        return normalizeChapterImageUrls(chapterData.content, richAttachments);
+        return normalizeChapterImageUrls(
+          chapterData.content,
+          hydratedRichAttachments,
+        );
       }
 
       if (typeof chapterData.content === 'object') {
@@ -371,11 +382,14 @@ class HexNovels implements Plugin.PluginBase {
           chapterData.content as ProseMirrorInput,
           {
             resolveImageUrls: node =>
-              resolveChapterImageUrls(node, richAttachments),
+              resolveChapterImageUrls(node, hydratedRichAttachments),
           },
         );
         if (renderedChapter.trim().length > 0) {
-          return normalizeChapterImageUrls(renderedChapter, richAttachments);
+          return normalizeChapterImageUrls(
+            renderedChapter,
+            hydratedRichAttachments,
+          );
         }
       }
     }
@@ -391,7 +405,7 @@ class HexNovels implements Plugin.PluginBase {
         if (legacyChapter.content?.trim()) {
           return normalizeChapterImageUrls(
             legacyChapter.content,
-            richAttachments,
+            hydratedRichAttachments,
           );
         }
       } catch {
@@ -411,7 +425,7 @@ class HexNovels implements Plugin.PluginBase {
     for (const selector of contentSelectors) {
       const content = loadedCheerio(selector).first().html();
       if (content && content.length > 100) {
-        return normalizeChapterImageUrls(content, richAttachments);
+        return normalizeChapterImageUrls(content, hydratedRichAttachments);
       }
     }
 
@@ -855,6 +869,219 @@ function mergeRichAttachments(
     ...(secondary || {}),
     ...(primary || {}),
   };
+}
+
+async function hydrateRichAttachmentsImages(
+  richAttachments: HexRichAttachments | null,
+  secretKey: string | null,
+): Promise<HexRichAttachments | null> {
+  if (!richAttachments) {
+    return null;
+  }
+
+  const entries = Object.entries(richAttachments);
+  if (!entries.length) {
+    return richAttachments;
+  }
+
+  const hydratedEntries = await Promise.all(
+    entries.map(async ([id, value]) => {
+      if (typeof value === 'string') {
+        const normalized = value.trim();
+        if (!normalized) {
+          return [id, value] as const;
+        }
+
+        const decodedUrl = await decodeHexNovelImageToDataUrl(
+          normalized,
+          secretKey,
+        );
+        return [id, decodedUrl || normalized] as const;
+      }
+
+      if (!value || typeof value !== 'object') {
+        return [id, value] as const;
+      }
+
+      const imageUrl =
+        (typeof value.image === 'string' ? value.image : '') ||
+        (typeof value.url === 'string' ? value.url : '');
+      const normalizedImageUrl = imageUrl.trim();
+      if (!normalizedImageUrl) {
+        return [id, value] as const;
+      }
+
+      const decodedUrl = await decodeHexNovelImageToDataUrl(
+        normalizedImageUrl,
+        secretKey,
+      );
+      return [
+        id,
+        {
+          ...value,
+          image: decodedUrl || normalizedImageUrl,
+        } as HexRichAttachment,
+      ] as const;
+    }),
+  );
+
+  return Object.fromEntries(hydratedEntries) as HexRichAttachments;
+}
+
+type HexImageEncryptionMode = 'xor' | 'sec';
+
+function detectHexImageEncryptionMode(
+  imageUrl: string,
+): HexImageEncryptionMode | null {
+  const fileName = imageUrl.split('/').pop()?.split('?')[0] || '';
+  const imageId = fileName.split('.')[0] || '';
+  if (imageId.length !== 36) {
+    return null;
+  }
+
+  const marker = imageId[14];
+  if (marker === 'x') {
+    return 'xor';
+  }
+  if (marker === 's') {
+    return 'sec';
+  }
+  return null;
+}
+
+function toXorImageUrl(imageUrl: string): string {
+  const queryIndex = imageUrl.indexOf('?');
+  const baseUrl = queryIndex >= 0 ? imageUrl.slice(0, queryIndex) : imageUrl;
+  const query = queryIndex >= 0 ? imageUrl.slice(queryIndex) : '';
+
+  const segments = baseUrl.split('/');
+  const fileName = segments.pop() || '';
+  const dotIndex = fileName.lastIndexOf('.');
+  const nameWithoutExt = dotIndex >= 0 ? fileName.slice(0, dotIndex) : fileName;
+  const extension = dotIndex >= 0 ? fileName.slice(dotIndex) : '';
+
+  if (nameWithoutExt.length !== 36) {
+    return imageUrl;
+  }
+
+  const patchedName = `${nameWithoutExt.slice(0, 14)}x${nameWithoutExt.slice(15)}${extension}`;
+  segments.push(patchedName);
+  return `${segments.join('/')}${query}`;
+}
+
+async function decodeHexNovelImageToDataUrl(
+  imageUrl: string,
+  secretKey: string | null,
+): Promise<string | null> {
+  const mode = detectHexImageEncryptionMode(imageUrl);
+  if (!mode) {
+    return null;
+  }
+
+  const normalizedSecretKey = secretKey?.trim();
+  if (!normalizedSecretKey) {
+    return null;
+  }
+
+  const fetchUrl = mode === 'sec' ? toXorImageUrl(imageUrl) : imageUrl;
+
+  try {
+    const response = await fetchApi(fetchUrl);
+    if (!response.ok) {
+      return null;
+    }
+
+    const rawBytes = new Uint8Array(await response.arrayBuffer());
+    const decodedBytes = xorDecodeBytes(rawBytes, normalizedSecretKey);
+    const mimeType = detectMimeType(decodedBytes, imageUrl);
+    const base64Payload = bytesToBase64(decodedBytes);
+
+    return `data:${mimeType};base64,${base64Payload}`;
+  } catch {
+    return null;
+  }
+}
+
+function xorDecodeBytes(bytes: Uint8Array, secretKey: string): Uint8Array {
+  const keyBytes = new TextEncoder().encode(secretKey);
+  if (!keyBytes.length) {
+    return bytes;
+  }
+
+  const decoded = new Uint8Array(bytes.length);
+  for (let index = 0; index < bytes.length; index += 1) {
+    decoded[index] = bytes[index] ^ keyBytes[index % keyBytes.length];
+  }
+  return decoded;
+}
+
+function detectMimeType(bytes: Uint8Array, sourceUrl: string): string {
+  if (
+    bytes.length > 8 &&
+    bytes[0] === 0x89 &&
+    bytes[1] === 0x50 &&
+    bytes[2] === 0x4e &&
+    bytes[3] === 0x47
+  ) {
+    return 'image/png';
+  }
+
+  if (bytes.length > 3 && bytes[0] === 0xff && bytes[1] === 0xd8) {
+    return 'image/jpeg';
+  }
+
+  if (
+    bytes.length > 12 &&
+    bytes[0] === 0x52 &&
+    bytes[1] === 0x49 &&
+    bytes[2] === 0x46 &&
+    bytes[3] === 0x46 &&
+    bytes[8] === 0x57 &&
+    bytes[9] === 0x45 &&
+    bytes[10] === 0x42 &&
+    bytes[11] === 0x50
+  ) {
+    return 'image/webp';
+  }
+
+  if (
+    bytes.length > 4 &&
+    bytes[0] === 0x47 &&
+    bytes[1] === 0x49 &&
+    bytes[2] === 0x46
+  ) {
+    return 'image/gif';
+  }
+
+  const normalizedSource = sourceUrl.toLowerCase();
+  if (normalizedSource.endsWith('.png')) return 'image/png';
+  if (normalizedSource.endsWith('.webp')) return 'image/webp';
+  if (normalizedSource.endsWith('.gif')) return 'image/gif';
+  if (normalizedSource.endsWith('.jpg') || normalizedSource.endsWith('.jpeg')) {
+    return 'image/jpeg';
+  }
+  return 'application/octet-stream';
+}
+
+const base64Chars =
+  'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+
+function bytesToBase64(bytes: Uint8Array): string {
+  let result = '';
+  for (let index = 0; index < bytes.length; index += 3) {
+    const byteA = bytes[index];
+    const byteB = index + 1 < bytes.length ? bytes[index + 1] : 0;
+    const byteC = index + 2 < bytes.length ? bytes[index + 2] : 0;
+
+    const triplet = (byteA << 16) | (byteB << 8) | byteC;
+
+    result += base64Chars[(triplet >> 18) & 0x3f];
+    result += base64Chars[(triplet >> 12) & 0x3f];
+    result +=
+      index + 1 < bytes.length ? base64Chars[(triplet >> 6) & 0x3f] : '=';
+    result += index + 2 < bytes.length ? base64Chars[triplet & 0x3f] : '=';
+  }
+  return result;
 }
 
 function collectAttachmentImageUrls(
