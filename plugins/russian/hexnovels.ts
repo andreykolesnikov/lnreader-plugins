@@ -21,6 +21,7 @@ type AstroStateValue =
   | { [key: string]: AstroStateValue };
 
 type HexBookData = {
+  id?: string;
   slug?: string;
   status?: string;
   name?: string | Record<string, unknown>;
@@ -49,6 +50,13 @@ type HexChapterData = {
   volume?: number | string;
   branchId?: string;
   createdAt?: string;
+};
+
+type HexBranchData = {
+  id?: string;
+  publishers?: {
+    name?: string;
+  }[];
 };
 
 type HexReaderChapter = {
@@ -186,7 +194,7 @@ class HexNovels implements Plugin.PluginBase {
   icon = 'src/ru/hexnovels/icon.png';
   site = 'https://hexnovels.me';
   api = 'https://api.hexnovels.me';
-  version = '1.0.6';
+  version = '1.0.7';
 
   async popularNovels(
     pageNo: number,
@@ -281,24 +289,21 @@ class HexNovels implements Plugin.PluginBase {
     }
 
     const slug = extractNovelSlug(novelPath) || bookData?.slug || '';
-    if (chaptersData?.length) {
-      const chaptersByBranch = new Map<string, HexChapterData[]>();
-      chaptersData.forEach(chapter => {
-        const branchId = chapter.branchId || 'default-branch';
-        if (!chaptersByBranch.has(branchId)) {
-          chaptersByBranch.set(branchId, []);
-        }
-        chaptersByBranch.get(branchId)?.push(chapter);
-      });
+    let bookId = normalizeHexIdentifier(bookData?.id);
+    if (!bookId && slug) {
+      bookId = await fetchBookIdBySlug(this.api, slug);
+    }
 
-      let largestBranch: HexChapterData[] = [];
-      chaptersByBranch.forEach(branchChapters => {
-        if (branchChapters.length > largestBranch.length) {
-          largestBranch = branchChapters;
-        }
-      });
+    let sourceChapters = chaptersData || [];
+    if (!sourceChapters.length && bookId) {
+      sourceChapters = await fetchBookChapters(this.api, bookId);
+    }
 
-      const sortedChapters = [...largestBranch].sort(compareChaptersForOrder);
+    if (sourceChapters.length) {
+      const branchLabelMap = bookId
+        ? await fetchBranchLabelMap(this.api, bookId)
+        : new Map<string, string>();
+      const sortedChapters = [...sourceChapters].sort(compareChaptersForOrder);
 
       const chapters: Plugin.ChapterItem[] = [];
       sortedChapters.forEach((chapter, index) => {
@@ -307,6 +312,10 @@ class HexNovels implements Plugin.PluginBase {
           return;
         }
 
+        const branchLabel = resolveBranchLabel(
+          chapter.branchId,
+          branchLabelMap,
+        );
         chapters.push({
           name: buildChapterName(chapter, index + 1),
           path: slug
@@ -319,6 +328,8 @@ class HexNovels implements Plugin.PluginBase {
           // Some titles reset chapter numbering for each volume, which can
           // otherwise cause host-side resorting like 1-1, 2-1, 1-2, 2-2...
           chapterNumber: index + 1,
+          scanlator: branchLabel,
+          page: branchLabel,
         });
       });
 
@@ -753,6 +764,119 @@ function compareIsoDates(
   }
 
   return leftTime - rightTime;
+}
+
+async function fetchBookIdBySlug(
+  apiBase: string,
+  slug: string,
+): Promise<string | null> {
+  const normalizedSlug = slug.trim();
+  if (!normalizedSlug) {
+    return null;
+  }
+
+  const url = `${apiBase}/v2/books/${encodeURIComponent(normalizedSlug)}`;
+  try {
+    const result = await fetchApi(url);
+    if (!result.ok) {
+      return null;
+    }
+    const payload = (await result.json()) as HexBookData;
+    return normalizeHexIdentifier(payload?.id);
+  } catch {
+    return null;
+  }
+}
+
+async function fetchBookChapters(
+  apiBase: string,
+  bookId: string,
+): Promise<HexChapterData[]> {
+  const normalizedBookId = normalizeHexIdentifier(bookId);
+  if (!normalizedBookId) {
+    return [];
+  }
+
+  const url = `${apiBase}/v2/chapters?bookId=${encodeURIComponent(normalizedBookId)}`;
+  try {
+    const result = await fetchApi(url);
+    if (!result.ok) {
+      return [];
+    }
+    const payload = (await result.json()) as HexChapterData[];
+    return Array.isArray(payload) ? payload : [];
+  } catch {
+    return [];
+  }
+}
+
+async function fetchBranchLabelMap(
+  apiBase: string,
+  bookId: string,
+): Promise<Map<string, string>> {
+  const normalizedBookId = normalizeHexIdentifier(bookId);
+  if (!normalizedBookId) {
+    return new Map<string, string>();
+  }
+
+  const url = `${apiBase}/v2/branches?bookId=${encodeURIComponent(normalizedBookId)}`;
+  try {
+    const result = await fetchApi(url);
+    if (!result.ok) {
+      return new Map<string, string>();
+    }
+    const payload = (await result.json()) as HexBranchData[];
+    if (!Array.isArray(payload)) {
+      return new Map<string, string>();
+    }
+
+    const branchMap = new Map<string, string>();
+    payload.forEach(branch => {
+      const id = normalizeHexIdentifier(branch.id);
+      if (!id) {
+        return;
+      }
+      const label = buildBranchLabel(branch);
+      if (!label) {
+        return;
+      }
+      branchMap.set(id, label);
+    });
+    return branchMap;
+  } catch {
+    return new Map<string, string>();
+  }
+}
+
+function buildBranchLabel(branch: HexBranchData): string | null {
+  const names = (branch.publishers || [])
+    .map(publisher => publisher?.name?.trim() || '')
+    .filter(name => name.length > 0);
+  const uniqueNames = Array.from(new Set(names));
+  if (uniqueNames.length > 0) {
+    return uniqueNames.join(' / ');
+  }
+
+  const id = normalizeHexIdentifier(branch.id);
+  return id ? `Branch ${id.slice(0, 8)}` : null;
+}
+
+function resolveBranchLabel(
+  branchId: string | undefined,
+  labels: Map<string, string>,
+): string | undefined {
+  const normalizedBranchId = normalizeHexIdentifier(branchId);
+  if (!normalizedBranchId) {
+    return undefined;
+  }
+  return (
+    labels.get(normalizedBranchId) || `Branch ${normalizedBranchId.slice(0, 8)}`
+  );
+}
+
+function normalizeHexIdentifier(value: string | undefined): string | null {
+  const normalized = value?.trim();
+  return normalized && normalized.length > 0 ? normalized : null;
 }
 
 function buildCatalogQueryParams(

@@ -14,6 +14,11 @@ export namespace Plugin {
     releaseTime?: string | null;
     chapterNumber?: number;
     /**
+     * Translation branch/team label.
+     * Propagated to app scanlator filtering.
+     */
+    scanlator?: string;
+    /**
      * For novel without pages only
      */
     page?: string;
