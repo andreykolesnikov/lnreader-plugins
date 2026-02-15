@@ -194,7 +194,7 @@ class HexNovels implements Plugin.PluginBase {
   icon = 'src/ru/hexnovels/icon.png';
   site = 'https://hexnovels.me';
   api = 'https://api.hexnovels.me';
-  version = '1.0.8';
+  version = '1.0.9';
 
   async popularNovels(
     pageNo: number,
@@ -204,7 +204,7 @@ class HexNovels implements Plugin.PluginBase {
     }: Plugin.PopularNovelsOptions<typeof this.filters>,
   ): Promise<Plugin.NovelItem[]> {
     const sortField = showLatestNovels
-      ? 'createdAt'
+      ? 'updatedAt'
       : filters?.sortField?.value || 'viewsCount';
     const sortOrder = showLatestNovels
       ? 'desc'
