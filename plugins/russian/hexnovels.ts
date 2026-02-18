@@ -194,7 +194,7 @@ class HexNovels implements Plugin.PluginBase {
   icon = 'src/ru/hexnovels/icon.png';
   site = 'https://hexnovels.me';
   api = 'https://api.hexnovels.me';
-  version = '1.0.9';
+  version = '1.0.11';
 
   async popularNovels(
     pageNo: number,
@@ -390,16 +390,11 @@ class HexNovels implements Plugin.PluginBase {
           astroRichAttachments,
           requiredImageIds,
         );
-        const hydratedRichAttachments = await hydrateRichAttachmentsImages(
-          richAttachments,
-          secretKey,
-          requiredImageIds,
-        );
         const renderedChapter = proseMirrorToHtml(
           chapterData.content as ProseMirrorInput,
           {
             resolveImageUrls: node =>
-              resolveChapterImageUrls(node, hydratedRichAttachments),
+              resolveChapterImageUrls(node, richAttachments, secretKey),
           },
         );
         if (renderedChapter.trim().length > 0) {
@@ -409,7 +404,7 @@ class HexNovels implements Plugin.PluginBase {
             chapterId,
             astroRichAttachments,
             secretKey,
-            hydratedRichAttachments,
+            richAttachments,
           );
         }
       }
@@ -460,6 +455,28 @@ class HexNovels implements Plugin.PluginBase {
     }
 
     return '';
+  }
+
+  async fetchImage(
+    imageRef: string,
+  ): Promise<{ dataUrl: string; cacheKey?: string } | null> {
+    const parsedRef = parseHexNovelImageRef(imageRef);
+    if (!parsedRef) {
+      return null;
+    }
+
+    const decodedPayload = await decodeHexNovelImageToDataUrl(
+      parsedRef.imageUrl,
+      parsedRef.secretKey,
+    );
+    if (!decodedPayload) {
+      return null;
+    }
+
+    return {
+      dataUrl: decodedPayload.dataUrl,
+      cacheKey: parsedRef.cacheKey || parsedRef.imageUrl,
+    };
   }
 
   async searchNovels(
@@ -1017,17 +1034,12 @@ async function normalizeChapterBlobImages(
     return html;
   }
 
-  const idsToHydrate = collectAttachmentIdsWithImages(
-    attachmentsWithImages,
-    blobImageCount,
-  );
-  const hydratedAttachments = await hydrateRichAttachmentsImages(
+  return normalizeChapterImageUrls(
+    html,
     attachmentsWithImages,
     secretKey,
-    idsToHydrate,
+    blobImageCount,
   );
-
-  return normalizeChapterImageUrls(html, hydratedAttachments, blobImageCount);
 }
 
 function countBlobImageTags(html: string): number {
@@ -1068,7 +1080,7 @@ async function ensureAttachmentsForBlobImages(
   chapterId: string | null,
   astroRichAttachments: HexRichAttachments | null,
 ): Promise<HexRichAttachments | null> {
-  if (collectAttachmentImageUrls(astroRichAttachments).length > 0) {
+  if (collectAttachmentIdsWithImages(astroRichAttachments).length > 0) {
     return astroRichAttachments;
   }
 
@@ -1155,6 +1167,7 @@ async function hydrateRichAttachmentsImages(
   richAttachments: HexRichAttachments | null,
   secretKey: string | null,
   preferredAttachmentIds?: string[],
+  decodeLimits: DecodeLimits = {},
 ): Promise<HexRichAttachments | null> {
   if (!richAttachments) {
     return null;
@@ -1169,52 +1182,144 @@ async function hydrateRichAttachmentsImages(
   }
 
   const hydratedAttachments: HexRichAttachments = { ...richAttachments };
-  await Promise.all(
-    attachmentIdsToHydrate.map(async id => {
-      const value = hydratedAttachments[id];
-      if (typeof value === 'string') {
-        const normalized = value.trim();
-        if (!normalized) {
-          return;
-        }
+  let decodedImages = 0;
+  let decodedBytes = 0;
 
-        const decodedUrl = await decodeHexNovelImageToDataUrl(
-          normalized,
-          secretKey,
-        );
-        hydratedAttachments[id] = decodedUrl || normalized;
-        return;
-      }
+  for (const id of attachmentIdsToHydrate) {
+    if (
+      typeof decodeLimits.maxImages === 'number' &&
+      decodedImages >= decodeLimits.maxImages
+    ) {
+      break;
+    }
 
-      if (!value || typeof value !== 'object') {
-        return;
-      }
+    const value = hydratedAttachments[id];
+    const normalizedImageUrl =
+      typeof value === 'string'
+        ? value.trim()
+        : (
+            (typeof value?.image === 'string' ? value.image : '') ||
+            (typeof value?.url === 'string' ? value.url : '')
+          ).trim();
+    if (!normalizedImageUrl) {
+      continue;
+    }
 
-      const imageUrl =
-        (typeof value.image === 'string' ? value.image : '') ||
-        (typeof value.url === 'string' ? value.url : '');
-      const normalizedImageUrl = imageUrl.trim();
-      if (!normalizedImageUrl) {
-        return;
-      }
+    const remainingBytes =
+      typeof decodeLimits.maxBytes === 'number'
+        ? Math.max(decodeLimits.maxBytes - decodedBytes, 0)
+        : undefined;
+    if (remainingBytes === 0) {
+      break;
+    }
 
-      const decodedUrl = await decodeHexNovelImageToDataUrl(
-        normalizedImageUrl,
-        secretKey,
-      );
-      hydratedAttachments[id] = {
-        ...value,
-        image: decodedUrl || normalizedImageUrl,
-      } as HexRichAttachment;
-    }),
-  );
+    const decodedPayload = await decodeHexNovelImageToDataUrl(
+      normalizedImageUrl,
+      secretKey,
+      remainingBytes,
+    );
+    if (!decodedPayload) {
+      continue;
+    }
+
+    if (
+      typeof decodeLimits.maxBytes === 'number' &&
+      decodedBytes + decodedPayload.decodedBytes > decodeLimits.maxBytes
+    ) {
+      break;
+    }
+
+    decodedImages += 1;
+    decodedBytes += decodedPayload.decodedBytes;
+    if (typeof value === 'string') {
+      hydratedAttachments[id] = decodedPayload.dataUrl;
+      continue;
+    }
+
+    hydratedAttachments[id] = {
+      ...(value || {}),
+      image: decodedPayload.dataUrl,
+    } as HexRichAttachment;
+  }
 
   return hydratedAttachments;
 }
 
 type HexImageEncryptionMode = 'xor' | 'sec';
-const decodedImageCache = new Map<string, string>();
+type DecodedImagePayload = {
+  dataUrl: string;
+  decodedBytes: number;
+};
+
+type HexNovelImageRef = {
+  imageUrl: string;
+  secretKey: string;
+  cacheKey?: string;
+};
+
+type DecodeLimits = {
+  maxImages?: number;
+  maxBytes?: number;
+};
+
+const decodedImageCache = new Map<string, DecodedImagePayload>();
 const decodedImageCacheLimit = 120;
+const chapterDecodeLimits: DecodeLimits = {
+  maxImages: 4,
+  maxBytes: 10 * 1024 * 1024,
+};
+
+function buildReaderImageUrl(
+  imageUrl: string | undefined,
+  secretKey: string | null,
+  cacheKey?: string,
+): string | undefined {
+  const normalizedImageUrl = imageUrl?.trim();
+  if (!normalizedImageUrl) {
+    return undefined;
+  }
+
+  if (!detectHexImageEncryptionMode(normalizedImageUrl)) {
+    return normalizedImageUrl;
+  }
+
+  const normalizedSecretKey = secretKey?.trim();
+  if (!normalizedSecretKey) {
+    return normalizedImageUrl;
+  }
+
+  const imageRefPayload: HexNovelImageRef = {
+    imageUrl: normalizedImageUrl,
+    secretKey: normalizedSecretKey,
+    cacheKey: cacheKey?.trim() || normalizedImageUrl,
+  };
+  const serializedRef = JSON.stringify(imageRefPayload);
+  return `novelimg://hexnovels?ref=${encodeURIComponent(serializedRef)}`;
+}
+
+function parseHexNovelImageRef(imageRef: string): HexNovelImageRef | null {
+  const normalizedRef = imageRef.trim();
+  if (!normalizedRef) {
+    return null;
+  }
+
+  try {
+    const parsed = JSON.parse(normalizedRef) as Partial<HexNovelImageRef>;
+    const imageUrl = parsed.imageUrl?.trim();
+    const secretKey = parsed.secretKey?.trim();
+    if (!imageUrl || !secretKey) {
+      return null;
+    }
+
+    return {
+      imageUrl,
+      secretKey,
+      cacheKey: parsed.cacheKey?.trim() || imageUrl,
+    };
+  } catch {
+    return null;
+  }
+}
 
 function detectHexImageEncryptionMode(
   imageUrl: string,
@@ -1258,7 +1363,8 @@ function toXorImageUrl(imageUrl: string): string {
 async function decodeHexNovelImageToDataUrl(
   imageUrl: string,
   secretKey: string | null,
-): Promise<string | null> {
+  maxBytesRemaining?: number,
+): Promise<DecodedImagePayload | null> {
   const mode = detectHexImageEncryptionMode(imageUrl);
   if (!mode) {
     return null;
@@ -1271,6 +1377,12 @@ async function decodeHexNovelImageToDataUrl(
   const cacheKey = `${normalizedSecretKey}::${imageUrl}`;
   const cachedImage = readDecodedImageFromCache(cacheKey);
   if (cachedImage) {
+    if (
+      typeof maxBytesRemaining === 'number' &&
+      cachedImage.decodedBytes > maxBytesRemaining
+    ) {
+      return null;
+    }
     return cachedImage;
   }
 
@@ -1281,20 +1393,38 @@ async function decodeHexNovelImageToDataUrl(
     if (!response.ok) {
       return null;
     }
+    const contentLengthRaw = response.headers.get('content-length');
+    if (typeof maxBytesRemaining === 'number' && contentLengthRaw) {
+      const contentLength = Number(contentLengthRaw);
+      if (Number.isFinite(contentLength) && contentLength > maxBytesRemaining) {
+        return null;
+      }
+    }
 
     const rawBytes = new Uint8Array(await response.arrayBuffer());
+    if (
+      typeof maxBytesRemaining === 'number' &&
+      rawBytes.length > maxBytesRemaining
+    ) {
+      return null;
+    }
     const decodedBytes = xorDecodeBytes(rawBytes, normalizedSecretKey);
     const mimeType = detectMimeType(decodedBytes, imageUrl);
     const base64Payload = bytesToBase64(decodedBytes);
-    const decodedDataUrl = `data:${mimeType};base64,${base64Payload}`;
-    writeDecodedImageToCache(cacheKey, decodedDataUrl);
-    return decodedDataUrl;
+    const decodedDataUrlPayload: DecodedImagePayload = {
+      dataUrl: `data:${mimeType};base64,${base64Payload}`,
+      decodedBytes: decodedBytes.length,
+    };
+    writeDecodedImageToCache(cacheKey, decodedDataUrlPayload);
+    return decodedDataUrlPayload;
   } catch {
     return null;
   }
 }
 
-function readDecodedImageFromCache(cacheKey: string): string | null {
+function readDecodedImageFromCache(
+  cacheKey: string,
+): DecodedImagePayload | null {
   const cached = decodedImageCache.get(cacheKey);
   if (!cached) {
     return null;
@@ -1308,12 +1438,12 @@ function readDecodedImageFromCache(cacheKey: string): string | null {
 
 function writeDecodedImageToCache(
   cacheKey: string,
-  decodedDataUrl: string,
+  decodedPayload: DecodedImagePayload,
 ): void {
   if (decodedImageCache.has(cacheKey)) {
     decodedImageCache.delete(cacheKey);
   }
-  decodedImageCache.set(cacheKey, decodedDataUrl);
+  decodedImageCache.set(cacheKey, decodedPayload);
 
   while (decodedImageCache.size > decodedImageCacheLimit) {
     const oldestCacheKey = decodedImageCache.keys().next().value as
@@ -1419,14 +1549,21 @@ function bytesToBase64(bytes: Uint8Array): string {
 
 function collectAttachmentImageUrls(
   richAttachments: HexRichAttachments | null,
+  secretKey: string | null,
   limit?: number,
 ): string[] {
   if (!richAttachments) {
     return [];
   }
 
-  const attachmentUrls = Object.values(richAttachments)
-    .map(value => extractRichAttachmentImage(value))
+  const attachmentUrls = Object.entries(richAttachments)
+    .map(([attachmentId, value]) =>
+      buildReaderImageUrl(
+        extractRichAttachmentImage(value),
+        secretKey,
+        attachmentId,
+      ),
+    )
     .filter((url): url is string => Boolean(url));
 
   if (typeof limit === 'number' && limit > 0) {
@@ -1439,6 +1576,7 @@ function collectAttachmentImageUrls(
 function normalizeChapterImageUrls(
   html: string,
   richAttachments: HexRichAttachments | null,
+  secretKey: string | null,
   blobImageCount?: number,
 ): string {
   if (!html || !/blob:/i.test(html)) {
@@ -1447,6 +1585,7 @@ function normalizeChapterImageUrls(
 
   const attachmentUrls = collectAttachmentImageUrls(
     richAttachments,
+    secretKey,
     blobImageCount,
   );
   if (!attachmentUrls.length) {
@@ -1463,10 +1602,9 @@ function normalizeChapterImageUrls(
       return;
     }
 
-    const replacement =
-      attachmentUrls[attachmentIndex] ||
-      attachmentUrls[attachmentUrls.length - 1];
+    const replacement = attachmentUrls[attachmentIndex];
     if (!replacement) {
+      loadedHtml(element).remove();
       return;
     }
 
@@ -1480,6 +1618,7 @@ function normalizeChapterImageUrls(
 function resolveChapterImageUrls(
   node: ProseMirrorNode,
   richAttachments: HexRichAttachments | null,
+  secretKey: string | null,
 ): string[] | string | undefined {
   if (!richAttachments || !node.attrs) {
     return undefined;
@@ -1491,7 +1630,13 @@ function resolveChapterImageUrls(
   }
 
   const imageUrls = imageIds
-    .map(id => extractRichAttachmentImage(richAttachments[id]))
+    .map(id =>
+      buildReaderImageUrl(
+        extractRichAttachmentImage(richAttachments[id]),
+        secretKey,
+        id,
+      ),
+    )
     .filter((url): url is string => Boolean(url));
 
   if (!imageUrls.length) {
